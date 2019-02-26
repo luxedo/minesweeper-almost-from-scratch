@@ -1,0 +1,56 @@
+/*
+tetris-almost-from-scratch
+This is an attempt of making the game tetris using modern programming languages
+
+Copyright (C) 2017  Luiz Eduardo Amaral - <luizamaral306@gmail.com>
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+html, body {
+  background-color: #AAA;
+  color: #222;
+  font-family: monospace;
+  text-align: center;
+  margin:0;
+  padding:0;
+  height:100%;
+}
+
+.container {
+  min-height: 100%;
+  position: relative;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 150px;
+}
+
+a:link, a:visited, a:hover, a:active {
+  color: #222;
+  text-decoration: underline;
+}
+
+.titlebar {
+  background-color: #119;
+  min-width: 2em;
+  height: 2em;
+}
+
+.mt2 {
+  margin-top: 2em;
+}
