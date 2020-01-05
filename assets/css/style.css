@@ -1,6 +1,6 @@
 /*
-tetris-almost-from-scratch
-This is an attempt of making the game tetris using modern programming languages
+minesweeper-almost-from-scratch
+This is an attempt of making the game minesweeper using modern programming languages
 
 Copyright (C) 2017  Luiz Eduardo Amaral - <luizamaral306@gmail.com>
 
@@ -18,26 +18,37 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 html, body {
-  background-color: #AAA;
+  background-color: #c3c3c3;
   color: #222;
   font-family: monospace;
   text-align: center;
   margin:0;
   padding:0;
-  height:100%;
+  height:95%;
 }
 
 .container {
-  min-height: 100%;
-  position: relative;
+  display: flex;
+  flex-flow: row wrap;
+  font-weight: bold;
+  text-align: center;
+  justify-content: center;
+}
+
+.container > * {
+  padding: 10px;
+  flex: 1 100%;
 }
 
 .footer {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 150px;
+  /* displays: block; */
+  /* position: absolute; */
+  /* bottom: 0; */
+  /* left: 0; */
+  /* width: 100%; */
+  /* height: 150px; */
+  align-self: flex-end;
+  flex-direction: column;
 }
 
 a:link, a:visited, a:hover, a:active {
@@ -45,10 +56,44 @@ a:link, a:visited, a:hover, a:active {
   text-decoration: underline;
 }
 
+.window {
+  /* display: block; */
+  min-width: 20em;
+  /* max-width: 50%; */
+  /* width: 50%; */
+}
+
 .titlebar {
-  background-color: #119;
-  min-width: 2em;
+  background-color: #0000c3;
+  color: #fff;
+}
+.menubar {
+  background-color: #fff;
+  text-align: left;
+}
+.menubar, .titlebar > span {
+  vertical-align: middle;
+}
+
+.bar {
+  outline: #000 solid 1px;
+  font-weight: bolder;
+  line-height: 2em;
+}
+
+.game-frame {
+  outline: #000 solid 1px;
+  box-shadow: 3px 3px 0px 0px #424242;
+  border: 3px solid #ffffff;
+  border-right-color: #848484;
+  border-bottom-color: #848484;
+  background: #c0c0c0;
+  padding: 2px;
   height: 2em;
+}
+
+.ui {
+  width: 50%;
 }
 
 .mt2 {

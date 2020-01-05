@@ -5,12 +5,13 @@ using modern programming languages. The idea is to time the development and trac
 Minesweeper is a classic for Windows machines. It's been ...
 
 For previous projects, I worked a lot with [Canvas](canvas link), this time I'm
-going to use HTML elements. I'd also love to write the sprites with CSS or at
-least SVG.
+going to use HTML elements. I'd also love to write the sprites with CSS.
 
-![original tetris](https://upload.wikimedia.org/wikipedia/en/7/7c/Tetris-VeryFirstVersion.png)
+I'll try to create the looks of the Windows 3.x version of Minesweeper
 
-#### Check it out [here](https://tetris-almost-from-scratch.firebaseapp.com/)
+![Minesweeper](report-assets/windows-minesweeper.png)
+
+#### Check it out [here](https://minesweeper-almost-from-scratch.firebaseapp.com/)
 
 ## Goals
 *   Host somewhere
