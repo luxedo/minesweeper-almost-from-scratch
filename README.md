@@ -4,41 +4,54 @@ using modern programming languages. The idea is to time the development and trac
 
 Minesweeper is a classic for Windows machines. It's been ...
 
-For previous projects, I worked a lot with [Canvas](canvas link), this time I'm
+For previous projects, I worked a lot with [Canvas](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API), this time I'm
 going to use HTML elements. I'd also love to write the sprites with CSS.
 
-I'll try to create the looks of the Windows 3.x version of Minesweeper
+I'll try to create the looks of the Windows 3.x version of Minesweeper in a
 
 ![Minesweeper](report-assets/windows-minesweeper.png)
+
+And the background should look like the old Windows
+
+![Windows 3.x](report-assets/windows3x.png)
 
 #### Check it out [here](https://minesweeper-almost-from-scratch.firebaseapp.com/)
 
 ## Goals
-*   Host somewhere
-*   Create sprites
-  - Cell
-  - Numbered cells
-  - Flag cell
-  - Question mark cell
-  - Mine cells
-  - Explosion cell
-  - Score/Time digits
-  - Emoji expressions
-*   Create the board
-*   Create random mine placing algorithm
-*   Create click mechanics
-*   Create game over mechanics
-*   Create top bar Menus
-  - New Game
-  - Board Settings
-  - About/Credits
-  - High Scores
-*   Fix playtesters requests
-*   Finished!
+
+* ~~Host somewhere~~
+* Create sprites
+    * Cell
+    * Numbered cells
+    * Flag cell
+    * Question mark cell
+    * Mine cells
+    * Explosion cell
+    * Score/Time digits
+    * Emoji expressions
+    * ~~Ask friends for desktop pixelart~~
+* Create the board
+* Create random mine placing algorithm
+* Create click mechanics
+* Create game over mechanics
+* Create top bar Menus
+    * New Game
+    * Board Settings
+    * About/Credits
+* Fix playtesters requests
+* Finished!
 
 ## Progress reports
-00:00 - START! Well, now it's 26th of February 2019 15:10. There's no power at
-home, that's why I'm starting now with around 2h of battery.
+### 00:00 - START! 
+Well, now it's 26th of February 2019 15:10. There's no power at home, 
+that's why I'm starting now with around 2h of battery.
+
+### 00:30 - START AGAIN!
+Well, now it's 10th of April 2021 11:30. This is taking quite some 
+time XP 
+
+### 00:40 - Hosting Guess Where?!
+[GH-PAGES!](https://pages.github.com/)
 
 
 ## License
