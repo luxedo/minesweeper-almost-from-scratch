@@ -75,6 +75,9 @@ a:active {
   background-color: #fff;
   text-align: left;
 }
+.menubar > span:first-child {
+  margin-left: 1em;
+}
 .menubar,
 .titlebar > span {
   vertical-align: middle;
@@ -170,7 +173,7 @@ a:active {
   color: #fff;
   background-color: #fff;
   height: 0.15em;
-  width: 70%;
+  width: 65%;
   filter: drop-shadow(2px 2px 0px #828282);
 }
 
