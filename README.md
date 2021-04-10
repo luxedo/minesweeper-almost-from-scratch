@@ -21,6 +21,7 @@ And the background should look like the old Windows
 
 * ~~Host somewhere~~
 * Create sprites
+    * ~~Window~~
     * Cell
     * Numbered cells
     * Flag cell
@@ -28,7 +29,7 @@ And the background should look like the old Windows
     * Mine cells
     * Explosion cell
     * Score/Time digits
-    * Emoji expressions
+    * Emoji expressions (~~Happy~~, Worried, Dead)
     * ~~Ask friends for desktop pixelart~~
 * Create the board
 * Create random mine placing algorithm
@@ -38,6 +39,7 @@ And the background should look like the old Windows
     * New Game
     * Board Settings
     * About/Credits
+* Opengraph and icons
 * Fix playtesters requests
 * Finished!
 
@@ -52,6 +54,16 @@ time XP
 
 ### 00:40 - Hosting Guess Where?!
 [GH-PAGES!](https://pages.github.com/)
+
+### 02:00 - First Sprite!
+Just made the first version of the window for the game and the happy
+emoji sprite! The window is mainly `div`s with borders and the sprite
+I've done in [GIMP](https://www.gimp.org/) quickly.
+Also, I asked some friends to draw half a dozen of  desktop icons to 
+place in the background. Researching a little bit more, there's a CSS
+standard that allows drawing shapes in the screen, so maybe I'll try
+to make the game sprites with that spec.
+![First sprite](report-assets/first-sprite.png)
 
 
 ## License
