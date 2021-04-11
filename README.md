@@ -35,6 +35,7 @@ And the background should look like the old times Windows
 - ~~Create random mine placing algorithm~~
 - ~~Place board data in the screen~~
 - ~~Create click mechanics~~
+- Implement middle click mechanics
 - Create game over mechanics
 - Create timing and scoring
 - Create top bar Menus

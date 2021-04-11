@@ -25,9 +25,27 @@ class Board {
       ? -1
       : row * this.width + col;
   }
-  getCartesian(row, col) {
-    const idx = this.getIndex(row, col);
-    return idx >= 0 ? this.data[idx] : {};
+  getCartesian(idx) {
+    return { row: Math.floor(idx / this.width), col: idx % this.width };
+  }
+  getNeighborsIndexes(idx) {
+    const { row, col } = this.getCartesian(idx);
+    const neighbors = [
+      // Top Row
+      this.getIndex(row - 1, col - 1),
+      this.getIndex(row - 1, col),
+      this.getIndex(row - 1, col + 1),
+
+      // Middle row
+      this.getIndex(row, col - 1),
+      this.getIndex(row, col + 1),
+
+      // Bottom row
+      this.getIndex(row + 1, col - 1),
+      this.getIndex(row + 1, col),
+      this.getIndex(row + 1, col + 1),
+    ];
+    return neighbors.filter((idx) => idx != -1);
   }
   randomSampleIndexes(maxIndex, N) {
     const ret = {};
@@ -56,83 +74,75 @@ class Board {
       (idx) => (this.data[idx].value = this.MINE)
     );
     this.countNeighbors();
-    this.placeBoard();
+    this.showBoard();
   }
   countNeighbors() {
-    return this.data.map((cell, idx) => {
-      const row = Math.floor(idx / this.width);
-      const col = idx % this.width;
-      let neighbors = [
-        // Top Row
-        this.getCartesian(row - 1, col - 1),
-        this.getCartesian(row - 1, col),
-        this.getCartesian(row - 1, col + 1),
-
-        // Middle row
-        this.getCartesian(row, col - 1),
-        this.getCartesian(row, col + 1),
-
-        // Bottom row
-        this.getCartesian(row + 1, col - 1),
-        this.getCartesian(row + 1, col),
-        this.getCartesian(row + 1, col + 1),
-      ];
-      this.data[idx].neighbors = neighbors.reduce(
-        (acc, cur) => acc + (cur.value == this.MINE),
+    this.data.forEach((cell, idx) => {
+      this.data[idx].neighbors = this.getNeighborsIndexes(idx).reduce(
+        (acc, idx) => acc + (this.data[idx].value == this.MINE),
         0
       );
     });
   }
-  placeBoard() {
+  showBoard() {
     this.element.innerHTML = "";
     for (let row = 0; row < this.height; row++) {
+      // Row element
       const cellRow = document.createElement("div");
       cellRow.classList.add("cell-row");
-      for (let col = 0; col < this.width; col++) {
-        const cellData = this.getCartesian(row, col);
-        const index = row * this.width + col;
-        const cell = document.createElement("div");
-        const cellContent = document.createElement("p");
-        cell.classList.add("cell");
-        cellContent.classList.add("cell-content");
 
-        if (cellData.state != this.SHOW) {
-          cell.classList.add("cell-hidden");
-          cell.setAttribute("index", index);
-          cell.onmousedown = (event) => this.cellMouseDown(event, index);
-          cell.onmouseup = (event) => this.cellMouseUp(event, index);
-          if (cellData.state == this.FLAG)
-            cellContent.classList.add(`cell-content-flag`);
-        } else {
-          cell.classList.add(`cell-show`);
-          if (cellData.value == this.EMPTY)
-            cellContent.classList.add(`cell-content-n${cellData.neighbors}`);
-          else cellContent.classList.add(`cell-content-mine`);
-        }
+      for (let col = 0; col < this.width; col++) {
+        const idx = this.getIndex(row, col);
+        const cellData = this.data[idx];
+
+        // Cell elements
+        const cell = document.createElement("div");
+        cell.classList.add("cell");
+        const cellContent = document.createElement("p");
+        cellContent.classList.add("cell-content");
         cell.appendChild(cellContent);
         cellRow.appendChild(cell);
+
+        switch (cellData.state) {
+          case this.SHOW:
+            cell.classList.add(`cell-show`);
+            if (cellData.value == this.EMPTY)
+              cellContent.classList.add(`cell-content-n${cellData.neighbors}`);
+            else cellContent.classList.add(`cell-content-mine`);
+            break;
+
+          case this.FLAG:
+          case this.HIDDEN:
+            cell.classList.add("cell-hidden");
+            cell.onmouseup = (event) => this.cellMouseUp(event, idx);
+            cell.onmousedown = (event) => this.cellMouseDown(event, idx);
+            if (cellData.state == this.FLAG)
+              cellContent.classList.add(`cell-content-flag`);
+            break;
+        }
       }
       this.element.appendChild(cellRow);
     }
   }
-  cellMouseDown(event, index) {
-    this.pressIdx = index;
+  cellMouseDown(event, idx) {
+    this.pressIdx = idx;
     if (event.button == this.LEFT_CLICK) {
-      const cellData = this.data[index];
+      const cellData = this.data[idx];
       if (cellData.state == this.HIDDEN) {
         event.target.classList.remove("cell-hidden");
         event.target.classList.add("cell-show");
       }
     }
   }
-  cellMouseUp(event, index) {
-    if (this.pressIdx == index) {
-      const cellData = this.data[index];
+  cellMouseUp(event, idx) {
+    if (this.pressIdx == idx) {
+      const cellData = this.data[idx];
       if (event.button == this.LEFT_CLICK) {
-        if (cellData.state == this.FLAG) return;
-        if (cellData.value == this.EMPTY && cellData.neighbors == 0)
-          this.floodFill(index);
-        else cellData.state = this.SHOW;
+        if (cellData.state == this.HIDDEN) {
+          if (cellData.value == this.EMPTY && cellData.neighbors == 0)
+            this.floodFill(idx);
+          else cellData.state = this.SHOW;
+        }
       } else if (event.button == this.RIGHT_CLICK) {
         if (cellData.state != this.SHOW) {
           cellData.state =
@@ -140,27 +150,15 @@ class Board {
         }
       }
     }
-    this.placeBoard();
+    this.showBoard();
   }
   floodFill(idx) {
     const cellData = this.data[idx];
-    if (idx < 0 || cellData.state != this.HIDDEN) return;
-
-    cellData.state = this.SHOW;
-    if (cellData.neighbors == 0) {
-      const row = Math.floor(idx / this.width);
-      const col = idx % this.width;
-      const neighborsIdx = [
-        this.getIndex(row - 1, col - 1),
-        this.getIndex(row - 1, col),
-        this.getIndex(row - 1, col + 1),
-        this.getIndex(row, col - 1),
-        this.getIndex(row, col + 1),
-        this.getIndex(row + 1, col - 1),
-        this.getIndex(row + 1, col),
-        this.getIndex(row + 1, col + 1),
-      ];
-      neighborsIdx.forEach((_idx) => this.floodFill(_idx));
+    if (idx > 0 && cellData.state == this.HIDDEN) {
+      cellData.state = this.SHOW;
+      if (cellData.neighbors == 0) {
+        this.getNeighborsIndexes(idx).forEach((_idx) => this.floodFill(_idx));
+      }
     }
   }
 }
