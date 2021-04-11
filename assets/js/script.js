@@ -192,6 +192,7 @@ class Board {
         }
         break;
     }
+    this.checkVictory();
     this.showBoard();
   }
   showAllMines() {
@@ -222,6 +223,19 @@ class Board {
       });
     }
   }
+  checkVictory() {
+    const hiddenCells = this.data.reduce(
+      (acc, cellData) => acc + (cellData.state != this.SHOW),
+      0
+    );
+    if (hiddenCells == this.mines) {
+      this.gameOver = true;
+      this.victory = true;
+      this.data.forEach((cellData) => {
+        if (cellData.value == this.MINE) cellData.state = this.FLAG;
+      });
+    }
+  }
 }
 
 window.addEventListener("DOMContentLoaded", (event) => {
@@ -249,6 +263,7 @@ function attachEmojiButton(board, emoji) {
   document.onmousedown = (event) => {
     if (!board.gameOver) {
       emoji.firstElementChild.classList.remove("emoji-dead");
+      emoji.firstElementChild.classList.remove("emoji-glasses");
       emoji.firstElementChild.classList.remove("emoji-happy");
       emoji.firstElementChild.classList.add("emoji-worried");
     }
@@ -256,9 +271,12 @@ function attachEmojiButton(board, emoji) {
   document.onmouseup = (event) => {
     emoji.firstElementChild.classList.remove("emoji-worried");
     if (board.gameOver) {
-      emoji.firstElementChild.classList.add("emoji-dead");
+      emoji.firstElementChild.classList.add(
+        board.victory ? "emoji-glasses" : "emoji-dead"
+      );
     } else {
       emoji.firstElementChild.classList.remove("emoji-dead");
+      emoji.firstElementChild.classList.remove("emoji-glasses");
       emoji.firstElementChild.classList.add("emoji-happy");
     }
   };

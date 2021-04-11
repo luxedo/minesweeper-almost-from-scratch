@@ -29,7 +29,7 @@ And the background should look like the old times Windows
   - ~~Mine cells~~
   - ~~Explosion cell~~
   - Score/Time digits
-  - ~~Emoji expressions (Happy, Worried, Dead)~~
+  - ~~Emoji expressions (Happy, Worried, Dead, Glasses)~~
   - ~~Ask friends for desktop pixelart~~
 - ~~Create the board data structure~~
 - ~~Create random mine placing algorithm~~
