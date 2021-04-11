@@ -27,16 +27,16 @@ And the background should look like the old times Windows
   - ~~Numbered cells~~
   - ~~Flag cell~~
   - ~~Mine cells~~
-  - Explosion cell
+  - ~~Explosion cell~~
   - Score/Time digits
-  - Emoji expressions (~~Happy~~, Worried, Dead)
+  - ~~Emoji expressions (Happy, Worried, Dead)~~
   - ~~Ask friends for desktop pixelart~~
 - ~~Create the board data structure~~
 - ~~Create random mine placing algorithm~~
 - ~~Place board data in the screen~~
 - ~~Create click mechanics~~
 - Implement middle click mechanics
-- Create game over mechanics
+- ~~Create game over mechanics~~
 - Create timing and scoring
 - Create top bar Menus
   - New Game
@@ -147,6 +147,12 @@ There's four behaviors that were implemented:
 
 Flood fill was quite interesting to implement since it's a recursive
 function.
+
+### 09:30 - Game Over mechanics
+
+The _game over_ state is quite simple. It just shows all mines in the
+board and also prevents the player from playing. It took half a dozen
+lines of code to implement this behavior. 
 
 ## License
 

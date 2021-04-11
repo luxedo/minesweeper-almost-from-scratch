@@ -36,14 +36,13 @@ body {
   justify-content: center;
 }
 
-
 .footer {
- display: block;
- position: absolute;
- bottom: 0;
- left: 0;
- width: 100%;
- height: 150px;
+  display: block;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 150px;
   align-self: flex-end;
   flex-direction: column;
 }
@@ -146,7 +145,7 @@ a:active {
   border-top-color: #848484;
 }
 
-.emoji {
+.emoji-happy {
   display: inline-block;
   background-color: #ffff00;
   border: 0.12em solid #000;
@@ -155,40 +154,72 @@ a:active {
   border-radius: 1.8em;
   margin-top: 0.1em;
 }
-.emoji:after {
+.emoji-happy:after {
   content: "";
   display: inline-block;
-  width: 0.10em;
-  height: 0.10em;
-  box-shadow: 
-    0.3em 0 0 #000, 
-    0.3em -0.06em 0 #000, 
-    0.3em -0.12em 0 #000, 
-    0.3em -0.18em 0 #000, 
-    0.3em -0.24em 0 #000, 
-    -0.3em 0 0 #000,
-    -0.3em -0.06em 0 #000,
-    -0.3em -0.12em 0 #000,
-    -0.3em -0.18em 0 #000,
-    -0.3em -0.24em 0 #000,
-    
-    0.0em 0.48em 0 #000,
-    0.06em 0.48em 0 #000,
-    0.12em 0.48em 0 #000,
-    -0.06em 0.48em 0 #000,
-    -0.12em 0.48em 0 #000,
-    0.18em 0.48em 0 #000,
-    0.24em 0.48em 0 #000,
-    -0.18em 0.48em 0 #000,
-    -0.24em 0.48em 0 #000,
-    0.30em 0.36em 0 #000,
-    0.36em 0.36em 0 #000,
-    -0.30em 0.36em 0 #000,
-    -0.36em 0.36em 0 #000,
-    0.42em 0.24em 0 #000,
-    0.48em 0.24em 0 #000,
-    -0.42em 0.24em 0 #000,
-    -0.48em 0.24em 0 #000;
+  width: 0.1em;
+  height: 0.1em;
+  box-shadow: 0.3em 0 0 #000, 0.3em -0.06em 0 #000, 0.3em -0.12em 0 #000,
+    0.3em -0.18em 0 #000, 0.3em -0.24em 0 #000, -0.3em 0 0 #000,
+    -0.3em -0.06em 0 #000, -0.3em -0.12em 0 #000, -0.3em -0.18em 0 #000,
+    -0.3em -0.24em 0 #000, 0em 0.48em 0 #000, 0.06em 0.48em 0 #000,
+    0.12em 0.48em 0 #000, -0.06em 0.48em 0 #000, -0.12em 0.48em 0 #000,
+    0.18em 0.48em 0 #000, 0.24em 0.48em 0 #000, -0.18em 0.48em 0 #000,
+    -0.24em 0.48em 0 #000, 0.3em 0.36em 0 #000, 0.36em 0.36em 0 #000,
+    -0.3em 0.36em 0 #000, -0.36em 0.36em 0 #000, 0.42em 0.24em 0 #000,
+    0.48em 0.24em 0 #000, -0.42em 0.24em 0 #000, -0.48em 0.24em 0 #000;
+}
+.emoji-worried {
+  display: inline-block;
+  background-color: #ffff00;
+  border: 0.12em solid #000;
+  width: 1.8em;
+  height: 1.8em;
+  border-radius: 1.8em;
+  margin-top: 0.1em;
+}
+.emoji-worried:after {
+  content: "";
+  display: inline-block;
+  width: 0.1em;
+  height: 0.1em;
+  box-shadow: 0.3em -0.12em 0 #000, 0.36em -0.12em 0 #000, 0.3em -0.18em 0 #000,
+    0.36em -0.18em 0 #000, 0.3em -0.24em 0 #000, 0.36em -0.24em 0 #000,
+    -0.3em -0.12em 0 #000, -0.36em -0.12em 0 #000, -0.3em -0.18em 0 #000,
+    -0.36em -0.18em 0 #000, -0.3em -0.24em 0 #000, -0.36em -0.24em 0 #000,
+    0em 0.18em 0 #000, -0.06em 0.18em 0 #000, 0.06em 0.18em 0 #000,
+    -0.12em 0.24em 0 #000, 0.12em 0.24em 0 #000, -0.18em 0.3em 0 #000,
+    0.18em 0.3em 0 #000, -0.18em 0.36em 0 #000, 0.18em 0.36em 0 #000,
+    -0.18em 0.42em 0 #000, 0.18em 0.42em 0 #000, -0.12em 0.48em 0 #000,
+    0.12em 0.48em 0 #000, -0.06em 0.54em 0 #000, 0.06em 0.54em 0 #000,
+    0 0.54em 0 #000;
+}
+.emoji-dead {
+  display: inline-block;
+  background-color: #ffff00;
+  border: 0.12em solid #000;
+  width: 1.8em;
+  height: 1.8em;
+  border-radius: 1.8em;
+  margin-top: 0.1em;
+}
+.emoji-dead:after {
+  content: "";
+  display: inline-block;
+  width: 0.1em;
+  height: 0.1em;
+  box-shadow: 0.3em -0.12em 0 #000, 0.36em -0.18em 0 #000, 0.42em -0.24em 0 #000,
+    0.24em -0.18em 0 #000, 0.18em -0.24em 0 #000, 0.36em -0.06em 0 #000,
+    0.42em 0 0 #000, 0.24em -0.06em 0 #000, 0.18em 0 0 #000,
+    -0.3em -0.12em 0 #000, -0.36em -0.18em 0 #000, -0.42em -0.24em 0 #000,
+    -0.24em -0.18em 0 #000, -0.18em -0.24em 0 #000, -0.36em -0.06em 0 #000,
+    -0.42em 0 0 #000, -0.24em -0.06em 0 #000, -0.18em 0 0 #000,
+    0em 0.24em 0 #000, 0.06em 0.24em 0 #000, 0.12em 0.24em 0 #000,
+    -0.06em 0.24em 0 #000, -0.12em 0.24em 0 #000, 0.18em 0.24em 0 #000,
+    0.24em 0.24em 0 #000, -0.18em 0.24em 0 #000, -0.24em 0.24em 0 #000,
+    0.3em 0.36em 0 #000, 0.36em 0.36em 0 #000, -0.3em 0.36em 0 #000,
+    -0.36em 0.36em 0 #000, 0.42em 0.48em 0 #000, 0.48em 0.48em 0 #000,
+    -0.42em 0.48em 0 #000, -0.48em 0.48em 0 #000;
 }
 
 .title-button {
@@ -246,6 +277,11 @@ a:active {
 .cell-show {
   border: 0.4em solid #c0c0c0;
   outline: #848484 solid 0.2em;
+}
+.cell-game-over {
+  border: 0.4em solid #fe0000;
+  outline: #848484 solid 0.2em;
+  background-color: #fe0000;
 }
 .cell-content {
   font-size: 1.4em;

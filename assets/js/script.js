@@ -20,6 +20,26 @@ class Board {
     this.element = element;
     this.reset();
   }
+  reset() {
+    this.gameOver = false;
+    this.data = Array(this.size)
+      .fill(0)
+      .map(
+        () =>
+          new Object({
+            value: this.EMPTY,
+            state: this.HIDDEN,
+            neighbors: 0,
+            gameOver: false,
+          })
+      );
+    this.randomSampleIndexes(this.size, this.mines).forEach(
+      (idx) => (this.data[idx].value = this.MINE)
+    );
+    this.countNeighbors();
+    this.showBoard();
+  }
+
   getIndex(row, col) {
     return row < 0 || col < 0 || row >= this.height || col >= this.width
       ? -1
@@ -59,23 +79,6 @@ class Board {
     }
     return Object.keys(ret).map(Number);
   }
-  reset() {
-    this.data = Array(this.size)
-      .fill(0)
-      .map(
-        () =>
-          new Object({
-            value: this.EMPTY,
-            state: this.HIDDEN,
-            neighbors: 0,
-          })
-      );
-    this.randomSampleIndexes(this.size, this.mines).forEach(
-      (idx) => (this.data[idx].value = this.MINE)
-    );
-    this.countNeighbors();
-    this.showBoard();
-  }
   countNeighbors() {
     this.data.forEach((cell, idx) => {
       this.data[idx].neighbors = this.getNeighborsIndexes(idx).reduce(
@@ -84,6 +87,7 @@ class Board {
       );
     });
   }
+
   showBoard() {
     this.element.innerHTML = "";
     for (let row = 0; row < this.height; row++) {
@@ -103,12 +107,18 @@ class Board {
         cell.appendChild(cellContent);
         cellRow.appendChild(cell);
 
+        // Cell value
         switch (cellData.state) {
           case this.SHOW:
             cell.classList.add(`cell-show`);
             if (cellData.value == this.EMPTY)
               cellContent.classList.add(`cell-content-n${cellData.neighbors}`);
-            else cellContent.classList.add(`cell-content-mine`);
+            else {
+              cellContent.classList.add(`cell-content-mine`);
+              if (cellData.gameOver) {
+                cell.classList.add(`cell-game-over`);
+              }
+            }
             break;
 
           case this.FLAG:
@@ -125,7 +135,7 @@ class Board {
     }
   }
   cellMouseDown(event, idx) {
-    this.pressIdx = idx;
+    if (this.gameOver) return;
     if (event.button == this.LEFT_CLICK) {
       const cellData = this.data[idx];
       if (cellData.state == this.HIDDEN) {
@@ -135,22 +145,32 @@ class Board {
     }
   }
   cellMouseUp(event, idx) {
-    if (this.pressIdx == idx) {
-      const cellData = this.data[idx];
-      if (event.button == this.LEFT_CLICK) {
-        if (cellData.state == this.HIDDEN) {
-          if (cellData.value == this.EMPTY && cellData.neighbors == 0)
-            this.floodFill(idx);
-          else cellData.state = this.SHOW;
+    if (this.gameOver) return;
+    const cellData = this.data[idx];
+    if (event.button == this.LEFT_CLICK) {
+      if (cellData.state == this.HIDDEN) {
+        if (cellData.value == this.EMPTY && cellData.neighbors == 0)
+          this.floodFill(idx);
+        else cellData.state = this.SHOW;
+
+        if (cellData.value == this.MINE) {
+          cellData.gameOver = true;
+          this.gameOver = true;
+          this.showAllMines();
         }
-      } else if (event.button == this.RIGHT_CLICK) {
-        if (cellData.state != this.SHOW) {
-          cellData.state =
-            cellData.state == this.HIDDEN ? this.FLAG : this.HIDDEN;
-        }
+      }
+    } else if (event.button == this.RIGHT_CLICK) {
+      if (cellData.state != this.SHOW) {
+        cellData.state =
+          cellData.state == this.HIDDEN ? this.FLAG : this.HIDDEN;
       }
     }
     this.showBoard();
+  }
+  showAllMines() {
+    this.data
+      .filter((cellData) => cellData.value == this.MINE)
+      .forEach((cellData) => (cellData.state = this.SHOW));
   }
   floodFill(idx) {
     const cellData = this.data[idx];
@@ -169,8 +189,11 @@ window.addEventListener("DOMContentLoaded", (event) => {
   const nMines = 10;
   const boardDiv = document.getElementsByClassName("game-board-container")[0];
   const board = new Board(bWidth, bHeight, nMines, boardDiv);
-
   const emoji = document.getElementById("emoji");
+  attachEmojiButton(board, emoji);
+});
+
+function attachEmojiButton(board, emoji) {
   emoji.onmousedown = (event) => {
     emoji.classList.add("pressed");
   };
@@ -181,4 +204,21 @@ window.addEventListener("DOMContentLoaded", (event) => {
   emoji.onmouseleave = (event) => {
     emoji.classList.remove("pressed");
   };
-});
+
+  document.onmousedown = (event) => {
+    if (!board.gameOver) {
+      emoji.firstElementChild.classList.remove("emoji-dead");
+      emoji.firstElementChild.classList.remove("emoji-happy");
+      emoji.firstElementChild.classList.add("emoji-worried");
+    }
+  };
+  document.onmouseup = (event) => {
+    emoji.firstElementChild.classList.remove("emoji-worried");
+    if (board.gameOver) {
+      emoji.firstElementChild.classList.add("emoji-dead");
+    } else {
+      emoji.firstElementChild.classList.remove("emoji-dead");
+      emoji.firstElementChild.classList.add("emoji-happy");
+    }
+  };
+}
