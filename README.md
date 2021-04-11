@@ -35,7 +35,7 @@ And the background should look like the old times Windows
 - ~~Create random mine placing algorithm~~
 - ~~Place board data in the screen~~
 - ~~Create click mechanics~~
-- Implement middle click mechanics
+- ~~Implement middle click mechanics~~
 - ~~Create game over mechanics~~
 - Create timing and scoring
 - Create top bar Menus
@@ -152,7 +152,17 @@ function.
 
 The _game over_ state is quite simple. It just shows all mines in the
 board and also prevents the player from playing. It took half a dozen
-lines of code to implement this behavior. 
+lines of code to implement this behavior.
+
+![game over](report-assets/game-over.png)
+
+### 10:30 - Middle click mechanics
+
+The middle click has a very controversial behavior. It allows the
+player to show several cells at once, given that the player has already
+flagged the mines close to that cell.
+
+![middle click](report-assets/middle-click.gif)
 
 ## License
 

@@ -10,6 +10,7 @@ class Board {
 
   // Buttons
   LEFT_CLICK = 0;
+  MIDDLE_CLICK = 1;
   RIGHT_CLICK = 2;
 
   constructor(width, height, mines, element) {
@@ -90,6 +91,7 @@ class Board {
 
   showBoard() {
     this.element.innerHTML = "";
+    this.view = [];
     for (let row = 0; row < this.height; row++) {
       // Row element
       const cellRow = document.createElement("div");
@@ -106,14 +108,17 @@ class Board {
         cellContent.classList.add("cell-content");
         cell.appendChild(cellContent);
         cellRow.appendChild(cell);
+        cell.onmousedown = (event) => this.cellMouseDown(event, idx);
+        cell.onmouseup = (event) => this.cellMouseUp(event, idx);
+        this.view.push(cell);
 
         // Cell value
         switch (cellData.state) {
           case this.SHOW:
             cell.classList.add(`cell-show`);
-            if (cellData.value == this.EMPTY)
+            if (cellData.value == this.EMPTY) {
               cellContent.classList.add(`cell-content-n${cellData.neighbors}`);
-            else {
+            } else {
               cellContent.classList.add(`cell-content-mine`);
               if (cellData.gameOver) {
                 cell.classList.add(`cell-game-over`);
@@ -124,8 +129,6 @@ class Board {
           case this.FLAG:
           case this.HIDDEN:
             cell.classList.add("cell-hidden");
-            cell.onmouseup = (event) => this.cellMouseUp(event, idx);
-            cell.onmousedown = (event) => this.cellMouseDown(event, idx);
             if (cellData.state == this.FLAG)
               cellContent.classList.add(`cell-content-flag`);
             break;
@@ -136,34 +139,58 @@ class Board {
   }
   cellMouseDown(event, idx) {
     if (this.gameOver) return;
-    if (event.button == this.LEFT_CLICK) {
-      const cellData = this.data[idx];
-      if (cellData.state == this.HIDDEN) {
-        event.target.classList.remove("cell-hidden");
-        event.target.classList.add("cell-show");
-      }
+
+    const cellData = this.data[idx];
+    switch (event.button) {
+      case this.LEFT_CLICK:
+        if (cellData.state == this.HIDDEN) {
+          event.target.classList.remove("cell-hidden");
+          event.target.classList.add("cell-show");
+        }
+        break;
+      case this.MIDDLE_CLICK:
+        if (cellData.state == this.SHOW) {
+          this.getNeighborsIndexes(idx).forEach((_idx) =>
+            this.cellMouseDown(
+              { button: this.LEFT_CLICK, target: this.view[_idx] },
+              _idx
+            )
+          );
+        }
+        break;
     }
   }
   cellMouseUp(event, idx) {
     if (this.gameOver) return;
     const cellData = this.data[idx];
-    if (event.button == this.LEFT_CLICK) {
-      if (cellData.state == this.HIDDEN) {
-        if (cellData.value == this.EMPTY && cellData.neighbors == 0)
-          this.floodFill(idx);
-        else cellData.state = this.SHOW;
 
-        if (cellData.value == this.MINE) {
-          cellData.gameOver = true;
-          this.gameOver = true;
-          this.showAllMines();
+    switch (event.button) {
+      case this.LEFT_CLICK:
+        if (cellData.state == this.HIDDEN) {
+          if (cellData.value == this.EMPTY && cellData.neighbors == 0)
+            this.floodFill(idx);
+          else cellData.state = this.SHOW;
+
+          if (cellData.value == this.MINE) {
+            cellData.gameOver = true;
+            this.gameOver = true;
+            this.showAllMines();
+          }
         }
-      }
-    } else if (event.button == this.RIGHT_CLICK) {
-      if (cellData.state != this.SHOW) {
-        cellData.state =
-          cellData.state == this.HIDDEN ? this.FLAG : this.HIDDEN;
-      }
+        break;
+
+      case this.MIDDLE_CLICK:
+        if (cellData.state == this.SHOW) {
+          this.showNeighbors(idx);
+        }
+        break;
+
+      case this.RIGHT_CLICK:
+        if (cellData.state != this.SHOW) {
+          cellData.state =
+            cellData.state == this.HIDDEN ? this.FLAG : this.HIDDEN;
+        }
+        break;
     }
     this.showBoard();
   }
@@ -179,6 +206,20 @@ class Board {
       if (cellData.neighbors == 0) {
         this.getNeighborsIndexes(idx).forEach((_idx) => this.floodFill(_idx));
       }
+    }
+  }
+  showNeighbors(idx) {
+    const cellData = this.data[idx];
+    const neighbors = this.getNeighborsIndexes(idx);
+    const flaggedNeighbors = neighbors.reduce(
+      (acc, _idx) => acc + (this.data[_idx].state == this.FLAG),
+      0
+    );
+    if (flaggedNeighbors >= cellData.neighbors) {
+      neighbors.forEach((_idx) => {
+        if (this.data[_idx].state == this.HIDDEN)
+          this.cellMouseUp({ button: this.LEFT_CLICK }, _idx);
+      });
     }
   }
 }
