@@ -81,7 +81,7 @@ then calculate the number of mine containing neighbors.
 
 ![Data structure](report-assets/data-structure.png)
 
-### 08:00 - Cell sprites
+### 06:00 - Cell sprites
 
 Since I really wanted to do the sprites with pure CSS, this took quite
 some time. I looked at a fews examples in [CSS Tricks](https://css-tricks.com/the-shapes-of-css/)
@@ -89,7 +89,7 @@ and tried to do my owns. There's a lot of trial and error but it is
 possible to draw each pixel using `box-shadow`. Other shapes are
 possible by modifying a `div` element with borders.
 
-The sprite for the mine ain't pretty to read:
+The sprite code for the mine ain't that pretty:
 
 ```css
 .cell-content-mine {
@@ -128,13 +128,14 @@ The sprite for the mine ain't pretty to read:
 ![Sprites and rendering](report-assets/sprites.png)
 
 For the numbered cells I didn't bother to draw and I'm using just
-a monospaced font.
+a monospaced font. Also, the emoji is now all in CSS 🙌! The `box-shadow`
+technique does not work well for pixelart.
 
-### 10:00 - Click mechanics
+### 08:00 - Click mechanics
 
-Luckly for me each cell of the board can be attached to event listeners
-that run when they are clicked. This is done via the `onmouseup` and
-`onmousedown` events. In those listeners we can check the states of
+Luckly for me, each cell on the board can be attached to [event listeners](https://developer.mozilla.org/en-US/docs/Web/API/EventListener)
+that run when they are clicked. This is done via `onmouseup` and
+`onmousedown` events. Inside those listeners we can check the states of
 each cell and decide what to do.
 There's four behaviors that were implemented:
 
