@@ -201,7 +201,7 @@ class Board {
   }
   floodFill(idx) {
     const cellData = this.data[idx];
-    if (idx > 0 && cellData.state == this.HIDDEN) {
+    if (idx >= 0 && cellData.state == this.HIDDEN) {
       cellData.state = this.SHOW;
       if (cellData.neighbors == 0) {
         this.getNeighborsIndexes(idx).forEach((_idx) => this.floodFill(_idx));
