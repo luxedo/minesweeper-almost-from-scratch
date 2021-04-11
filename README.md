@@ -33,9 +33,10 @@ And the background should look like the old times Windows
   - ~~Ask friends for desktop pixelart~~
 - ~~Create the board data structure~~
 - ~~Create random mine placing algorithm~~
-- Place board data in the screen
-- Create click mechanics
+- ~~Place board data in the screen~~
+- ~~Create click mechanics~~
 - Create game over mechanics
+- Create timing and scoring
 - Create top bar Menus
   - New Game
   - Board Settings
@@ -80,7 +81,7 @@ then calculate the number of mine containing neighbors.
 
 ![Data structure](report-assets/data-structure.png)
 
-### 07:00 - Cell sprites
+### 08:00 - Cell sprites
 
 Since I really wanted to do the sprites with pure CSS, this took quite
 some time. I looked at a fews examples in [CSS Tricks](https://css-tricks.com/the-shapes-of-css/)
@@ -97,7 +98,7 @@ The sprite for the mine ain't pretty to read:
   height: 0.9em;
   border-radius: 0.9em;
   background-color: #000;
-  margin-top: 0.3em;
+  margin-top: 0.2em;
 }
 .cell-content-mine:before {
   content: "";
@@ -128,6 +129,22 @@ The sprite for the mine ain't pretty to read:
 
 For the numbered cells I didn't bother to draw and I'm using just
 a monospaced font.
+
+### 10:00 - Click mechanics
+
+Luckly for me each cell of the board can be attached to event listeners
+that run when they are clicked. This is done via the `onmouseup` and
+`onmousedown` events. In those listeners we can check the states of
+each cell and decide what to do.
+There's four behaviors that were implemented:
+
+1. Left click (reveal cell)
+1. Right click (toggle cell to flag/normal)
+1. Flood fill (fills adjacent cells if the clicked one has value 0)
+1. Reset board
+
+Flood fill was quite interesting to implement since it's a recursive
+function.
 
 ## License
 

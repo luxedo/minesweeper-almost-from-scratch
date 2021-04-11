@@ -128,7 +128,7 @@ a:active {
   float: right;
 }
 
-.emoji {
+.reset {
   display: inline-block;
   border: 0.35em solid #ffffff;
   border-right-color: #848484;
@@ -137,10 +137,60 @@ a:active {
   height: 2.3em;
   width: 2.3em;
 }
-.emoji img {
-  display: block;
-  margin: auto;
-  width: 100%;
+.reset.pressed {
+  border: 0.35em solid #ffffff;
+  border-left-color: #848484;
+  border-top-color: #848484;
+}
+
+.emoji {
+  display: inline-block;
+  background-color: #ffff00;
+  border: 0.12em solid #000;
+  width: 1.8em;
+  height: 1.8em;
+  border-radius: 1.8em;
+  margin-top: 0.1em;
+}
+.emoji:after {
+  content: "";
+  display: inline-block;
+  width: 0.10em;
+  height: 0.10em;
+  box-shadow: 
+    0.3em 0 0 #000, 
+    0.3em -0.06em 0 #000, 
+    0.3em -0.12em 0 #000, 
+    0.3em -0.18em 0 #000, 
+    0.3em -0.24em 0 #000, 
+    -0.3em 0 0 #000,
+    -0.3em -0.06em 0 #000,
+    -0.3em -0.12em 0 #000,
+    -0.3em -0.18em 0 #000,
+    -0.3em -0.24em 0 #000,
+    
+    0.0em 0.48em 0 #000,
+    0.06em 0.48em 0 #000,
+    0.12em 0.48em 0 #000,
+    -0.06em 0.48em 0 #000,
+    -0.12em 0.48em 0 #000,
+    0.18em 0.48em 0 #000,
+    0.24em 0.48em 0 #000,
+    -0.18em 0.48em 0 #000,
+    -0.24em 0.48em 0 #000,
+    0.30em 0.36em 0 #000,
+    0.36em 0.36em 0 #000,
+    -0.30em 0.36em 0 #000,
+    -0.36em 0.36em 0 #000,
+    0.42em 0.24em 0 #000,
+    0.48em 0.24em 0 #000,
+    -0.42em 0.24em 0 #000,
+    -0.48em 0.24em 0 #000,
+
+
+
+    0 0 0 #000
+    ;
 }
 
 .ui {
@@ -207,7 +257,7 @@ a:active {
   outline: #848484 solid 0.2em;
 }
 .cell-content {
-  font-size: 1.2em;
+  font-size: 1.4em;
   font-weight: bolder;
   margin: 0;
   margin-top: 0.2em;
@@ -220,34 +270,42 @@ a:active {
 .cell-content-n1:before {
   content: "1";
   color: #0000ff;
+  text-shadow: 0.1em 0;
 }
 .cell-content-n2:before {
   content: "2";
   color: #008001;
+  text-shadow: 0.1em 0;
 }
 .cell-content-n3:before {
   content: "3";
   color: #fe0000;
+  text-shadow: 0.1em 0;
 }
 .cell-content-n4:before {
   content: "4";
   color: #00007f;
+  text-shadow: 0.1em 0;
 }
 .cell-content-n5:before {
   content: "5";
   color: #800000;
+  text-shadow: 0.1em 0;
 }
 .cell-content-n6:before {
   content: "6";
   color: #008081;
+  text-shadow: 0.1em 0;
 }
 .cell-content-n7:before {
   content: "7";
   color: #000000;
+  text-shadow: 0.1em 0;
 }
 .cell-content-n8:before {
   content: "8";
   color: #808080;
+  text-shadow: 0.1em 0;
 }
 
 .cell-content-mine {
@@ -256,7 +314,7 @@ a:active {
   height: 0.9em;
   border-radius: 0.9em;
   background-color: #000;
-  margin-top: 0.3em;
+  margin-top: 0.2em;
 }
 .cell-content-mine:before {
   content: "";
