@@ -38,7 +38,6 @@ body {
 
 .container > * {
   padding: 10px;
-  flex: 1 100%;
 }
 
 .footer {
@@ -62,7 +61,6 @@ a:active {
 
 .window {
   /* display: block; */
-  min-width: 20em;
   /* max-width: 50%; */
   /* width: 50%; */
 }
@@ -110,7 +108,6 @@ a:active {
   border-left-color: #848484;
   border-top-color: #848484;
   background: #c0c0c0;
-  padding: 0.3em;
 }
 
 .red-digits {
@@ -147,7 +144,6 @@ a:active {
 }
 
 .ui {
-  width: 20em;
 }
 
 .mt2 {
@@ -191,4 +187,125 @@ a:active {
   border-left: 0.5em solid transparent;
   border-right: 0.5em solid transparent;
   border-top: 0.5em solid #000;
+}
+
+.cell-row {
+  display: flex;
+  flex-wrap: nowrap;
+}
+.cell {
+  width: 1.8em;
+  height: 1.8em;
+}
+.cell-hidden {
+  border: 0.4em solid #ffffff;
+  border-right-color: #848484;
+  border-bottom-color: #848484;
+}
+.cell-show {
+  border: 0.4em solid #c0c0c0;
+  outline: #848484 solid 0.2em;
+}
+.cell-content {
+  font-size: 1.2em;
+  font-weight: bolder;
+  margin: 0;
+  margin-top: 0.2em;
+}
+
+/* SPRITES */
+.cell-content-n0:before {
+  content: "";
+}
+.cell-content-n1:before {
+  content: "1";
+  color: #0000ff;
+}
+.cell-content-n2:before {
+  content: "2";
+  color: #008001;
+}
+.cell-content-n3:before {
+  content: "3";
+  color: #fe0000;
+}
+.cell-content-n4:before {
+  content: "4";
+  color: #00007f;
+}
+.cell-content-n5:before {
+  content: "5";
+  color: #800000;
+}
+.cell-content-n6:before {
+  content: "6";
+  color: #008081;
+}
+.cell-content-n7:before {
+  content: "7";
+  color: #000000;
+}
+.cell-content-n8:before {
+  content: "8";
+  color: #808080;
+}
+
+.cell-content-mine {
+  display: inline-block;
+  width: 0.9em;
+  height: 0.9em;
+  border-radius: 0.9em;
+  background-color: #000;
+  margin-top: 0.3em;
+}
+.cell-content-mine:before {
+  content: "";
+  display: inline-block;
+  width: 0.12em;
+  height: 0.12em;
+  background-color: #000;
+  box-shadow: 0.84em -0.37em 0 #000, 0.95em -0.37em 0 #000,
+    0.36em -0.89em 0 #000, 0.36em -1em 0 #000, -0.16em -0.37em 0 #000,
+    -0.27em -0.37em 0 #000, 0.36em 0.12em 0 #000, 0.36em 0.23em 0 #000,
+    0.72em -0.72em 0 #000, 0em -0.72em 0 #000, 0.72em 0em 0 #000;
+  margin-bottom: 0.04em;
+  margin-left: -0.05em;
+}
+.cell-content-mine:after {
+  content: "";
+  display: inline-block;
+  width: 0.2em;
+  height: 0.2em;
+  border-radius: 0.2em;
+  margin-right: 0.45em;
+  margin-bottom: 0.45em;
+  background-color: #fff;
+}
+
+.cell-content-flag {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-top: 0.3em solid transparent;
+  border-bottom: 0.3em solid transparent;
+  border-right: 0.6em solid #fe0000;
+  margin-left: -0.4em;
+}
+.cell-content-flag:after {
+  content: "";
+  display: inline-block;
+  width: 0.12em;
+  height: 0.12em;
+  box-shadow: 0.48em -1.68em 0 #000, 0.48em -1.57em 0 #000,
+    0.48em -1.46em 0 #000, 0.48em -1.35em 0 #000;
+}
+.cell-content-flag:before {
+  content: "";
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-left: 0.5em solid transparent;
+  border-right: 0.5em solid transparent;
+  border-bottom: 0.3em solid #000;
+  margin-left: 0.03em;
 }

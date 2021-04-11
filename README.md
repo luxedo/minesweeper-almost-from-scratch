@@ -23,11 +23,10 @@ And the background should look like the old times Windows
 - ~~Host somewhere~~
 - Create sprites
   - ~~Window~~
-  - Cell
-  - Numbered cells
-  - Flag cell
-  - Question mark cell
-  - Mine cells
+  - ~~Cell~~
+  - ~~Numbered cells~~
+  - ~~Flag cell~~
+  - ~~Mine cells~~
   - Explosion cell
   - Score/Time digits
   - Emoji expressions (~~Happy~~, Worried, Dead)
@@ -67,9 +66,7 @@ Just made the first version of the window for the game and the happy
 emoji sprite! The window is mainly `div`s with borders and the sprite
 I've done in [GIMP](https://www.gimp.org/) quickly.
 Also, I asked some friends to draw half a dozen of desktop icons to
-place in the background. Researching a little bit more, there's a CSS
-standard that allows drawing shapes in the screen, so maybe I'll try
-to make the game sprites with that spec.
+place in the background.
 
 ![First sprite](report-assets/first-sprite.png)
 
@@ -82,6 +79,55 @@ To do so, first we uniformly random sample **n** mines in the board and
 then calculate the number of mine containing neighbors.
 
 ![Data structure](report-assets/data-structure.png)
+
+### 07:00 - Cell sprites
+
+Since I really wanted to do the sprites with pure CSS, this took quite
+some time. I looked at a fews examples in [CSS Tricks](https://css-tricks.com/the-shapes-of-css/)
+and tried to do my owns. There's a lot of trial and error but it is
+possible to draw each pixel using `box-shadow`. Other shapes are
+possible by modifying a `div` element with borders.
+
+The sprite for the mine ain't pretty to read:
+
+```css
+.cell-content-mine {
+  display: inline-block;
+  width: 0.9em;
+  height: 0.9em;
+  border-radius: 0.9em;
+  background-color: #000;
+  margin-top: 0.3em;
+}
+.cell-content-mine:before {
+  content: "";
+  display: inline-block;
+  width: 0.12em;
+  height: 0.12em;
+  background-color: #000;
+  box-shadow: 0.84em -0.37em 0 #000, 0.95em -0.37em 0 #000,
+    0.36em -0.89em 0 #000, 0.36em -1em 0 #000, -0.16em -0.37em 0 #000, -0.27em -0.37em
+      0 #000, 0.36em 0.12em 0 #000, 0.36em 0.23em 0 #000, 0.72em -0.72em 0 #000,
+    0em -0.72em 0 #000, 0.72em 0em 0 #000;
+  margin-bottom: 0.04em;
+  margin-left: -0.05em;
+}
+.cell-content-mine:after {
+  content: "";
+  display: inline-block;
+  width: 0.2em;
+  height: 0.2em;
+  border-radius: 0.2em;
+  margin-right: 0.45em;
+  margin-bottom: 0.45em;
+  background-color: #fff;
+}
+```
+
+![Sprites and rendering](report-assets/sprites.png)
+
+For the numbered cells I didn't bother to draw and I'm using just
+a monospaced font.
 
 ## License
 
