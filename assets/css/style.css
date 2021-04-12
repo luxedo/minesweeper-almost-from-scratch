@@ -17,6 +17,8 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+
+/* Global settings */
 html,
 body {
   background-color: #c3c3c3;
@@ -27,7 +29,15 @@ body {
   padding: 0;
   height: 95%;
 }
+a:link,
+a:visited,
+a:hover,
+a:active {
+  color: #222;
+  text-decoration: underline;
+}
 
+/* Containers */
 .container {
   display: flex;
   flex-flow: row wrap;
@@ -46,24 +56,6 @@ body {
   align-self: flex-end;
   flex-direction: column;
 }
-
-a:link,
-a:visited,
-a:hover,
-a:active {
-  color: #222;
-  text-decoration: underline;
-}
-
-.window {
-  /* display: block; */
-  /* max-width: 50%; */
-  /* width: 50%; */
-}
-
-.ui {
-}
-
 .mt6 {
   margin-top: 6em;
 }
@@ -98,11 +90,13 @@ a:active {
   padding: 0.4em;
 }
 .game-top-container {
+  display: flex;
   border: 0.3em solid #ffffff;
   border-left-color: #848484;
   border-top-color: #848484;
   background: #c0c0c0;
-  padding: 0.6em;
+  padding: 0.4em;
+  justify-content: space-between;
 }
 .game-board-container {
   margin-top: 0.6em;
@@ -111,40 +105,76 @@ a:active {
   border-top-color: #848484;
   background: #c0c0c0;
 }
-
-.red-digits {
-  margin-top: 0.1em;
-  display: inline-block;
+.segment-display {
+  display: flex;
   border: 0.1em solid #ffffff;
   border-left-color: #848484;
   border-top-color: #848484;
   background: #000;
-  padding: 0.1em;
-  height: 2.8em;
-  width: 5em;
+  padding: 0.2em;
+  height: 2.9em;
+  width: 5.4em;
+  justify-content: space-between;
 }
-#score-total-mines {
-  float: left;
-}
-#score-remaining-mines {
-  float: right;
-}
-
 .reset {
   display: inline-block;
-  border: 0.35em solid #ffffff;
+  border: 0.4em solid #ffffff;
   border-right-color: #848484;
   border-bottom-color: #848484;
+  border-radius: 0.3em;
   background: #c0c0c0;
-  height: 2.3em;
-  width: 2.3em;
+  height: 2.4em;
+  width: 2.4em;
 }
 .reset.pressed {
   border: 0.35em solid #ffffff;
   border-left-color: #848484;
   border-top-color: #848484;
 }
+.title-button {
+  background-color: #c0c0c0;
+  display: inline-block;
+}
+.cell-row {
+  display: flex;
+  flex-wrap: nowrap;
+}
+.cell {
+  width: 1.8em;
+  height: 1.8em;
+}
 
+/* SPRITES */
+.title-dash {
+  float: left;
+  width: 2em;
+  height: 2em;
+}
+.title-dash hr {
+  margin-top: 0.9em;
+  border: 1px;
+  border-style: solid;
+  border-color: #000;
+  color: #fff;
+  background-color: #fff;
+  height: 0.15em;
+  width: 65%;
+  filter: drop-shadow(2px 2px 0px #828282);
+}
+.title-arrow {
+  float: right;
+  width: 1.6em;
+  height: 1.6em;
+  border: 0.2em solid #ffffff;
+  border-right-color: #848484;
+  border-bottom-color: #848484;
+}
+.title-arrow span {
+  display: inline-block;
+  border-left: 0.5em solid transparent;
+  border-right: 0.5em solid transparent;
+  border-top: 0.5em solid #000;
+}
 .emoji-happy {
   display: inline-block;
   background-color: #ffff00;
@@ -152,7 +182,7 @@ a:active {
   width: 1.8em;
   height: 1.8em;
   border-radius: 1.8em;
-  margin-top: 0.1em;
+  margin-top: 0.2em;
 }
 .emoji-happy:after {
   content: "";
@@ -176,7 +206,7 @@ a:active {
   width: 1.8em;
   height: 1.8em;
   border-radius: 1.8em;
-  margin-top: 0.1em;
+  margin-top: 0.2em;
 }
 .emoji-worried:after {
   content: "";
@@ -201,7 +231,7 @@ a:active {
   width: 1.8em;
   height: 1.8em;
   border-radius: 1.8em;
-  margin-top: 0.1em;
+  margin-top: 0.2em;
 }
 .emoji-dead:after {
   content: "";
@@ -221,7 +251,6 @@ a:active {
     -0.36em 0.36em 0 #000, 0.42em 0.48em 0 #000, 0.48em 0.48em 0 #000,
     -0.42em 0.48em 0 #000, -0.48em 0.48em 0 #000;
 }
-
 .emoji-glasses {
   display: inline-block;
   background-color: #ffff00;
@@ -229,7 +258,7 @@ a:active {
   width: 1.8em;
   height: 1.8em;
   border-radius: 1.8em;
-  margin-top: 0.1em;
+  margin-top: 0.2em;
 }
 .emoji-glasses:after {
   content: "";
@@ -288,54 +317,6 @@ a:active {
     -0.3em 0.36em 0 #000, -0.36em 0.36em 0 #000, 0.42em 0.24em 0 #000,
     0.48em 0.24em 0 #000, -0.42em 0.24em 0 #000, -0.48em 0.24em 0 #000;
 }
-
-.title-button {
-  background-color: #c0c0c0;
-  display: inline-block;
-}
-
-.title-dash {
-  float: left;
-  width: 2em;
-  height: 2em;
-}
-
-.title-dash hr {
-  margin-top: 0.9em;
-  border: 1px;
-  border-style: solid;
-  border-color: #000;
-  color: #fff;
-  background-color: #fff;
-  height: 0.15em;
-  width: 65%;
-  filter: drop-shadow(2px 2px 0px #828282);
-}
-
-.title-arrow {
-  float: right;
-  width: 1.6em;
-  height: 1.6em;
-  border: 0.2em solid #ffffff;
-  border-right-color: #848484;
-  border-bottom-color: #848484;
-}
-
-.title-arrow span {
-  display: inline-block;
-  border-left: 0.5em solid transparent;
-  border-right: 0.5em solid transparent;
-  border-top: 0.5em solid #000;
-}
-
-.cell-row {
-  display: flex;
-  flex-wrap: nowrap;
-}
-.cell {
-  width: 1.8em;
-  height: 1.8em;
-}
 .cell-hidden {
   border: 0.4em solid #ffffff;
   border-right-color: #848484;
@@ -356,8 +337,6 @@ a:active {
   margin: 0;
   margin-top: 0.2em;
 }
-
-/* SPRITES */
 .cell-content-n0:before {
   content: "";
 }
@@ -401,7 +380,6 @@ a:active {
   color: #808080;
   text-shadow: 0.1em 0;
 }
-
 .cell-content-mine {
   display: inline-block;
   width: 0.9em;
@@ -460,4 +438,84 @@ a:active {
     -0.12em -0.3em 0 #000, -0.12em -0.24em 0 #000, -0.18em -0.3em 0 #000,
     -0.18em -0.24em 0 #000, -0.24em -0.24em 0 #000;
   margin-left: 0.48em;
+}
+
+/* 7 segment display */
+.segment-off {
+  filter: brightness(40%);
+}
+
+.segA {
+  width: 0.8em;
+  border-top: 0.4em solid #fe0000;
+  border-right: 0.4em solid transparent;
+  border-left: 0.4em solid transparent;
+}
+.segB {
+  height: 0.6em;
+  border-right: 0.4em solid #fe0000;
+  border-top: 0.4em solid transparent;
+  border-bottom: 0.4em solid transparent;
+
+  position: relative;
+  top: -0.3em;
+  left: 0em;
+}
+.segC {
+  height: 0.6em;
+  border-right: 0.4em solid #fe0000;
+  border-top: 0.4em solid transparent;
+  border-bottom: 0.4em solid transparent;
+
+  position: relative;
+  top: -0.3em;
+}
+.segD {
+  width: 0.8em;
+  border-bottom: 0.4em solid #fe0000;
+  border-left: 0.4em solid transparent;
+  border-right: 0.4em solid transparent;
+
+  position: relative;
+  top: -0.65em;
+}
+.segE {
+  height: 0.6em;
+  border-left: 0.4em solid #fe0000;
+  border-top: 0.4em solid transparent;
+  border-bottom: 0.4em solid transparent;
+
+  position: relative;
+  top: -2.1em;
+}
+.segF {
+  height: 0.6em;
+  border-left: 0.4em solid #fe0000;
+  border-top: 0.4em solid transparent;
+  border-bottom: 0.4em solid transparent;
+
+  position: relative;
+  top: -4.9em;
+  left: 0;
+}
+.segGt {
+  width: 0.78em;
+  border-bottom: 0.3em solid #fe0000;
+  border-left: 0.3em solid transparent;
+  border-right: 0.3em solid transparent;
+
+  position: relative;
+  top: -5.2em;
+  left: 0.1em;
+}
+.segGb {
+  width: 0.78em;
+  height: 0.3em;
+  border-top: 0.3em solid #fe0000;
+  border-left: 0.3em solid transparent;
+  border-right: 0.3em solid transparent;
+
+  position: relative;
+  top: -5.2em;
+  left: 0.1em;
 }

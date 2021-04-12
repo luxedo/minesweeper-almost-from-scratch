@@ -21,14 +21,14 @@ And the background should look like the old times Windows
 ## Goals
 
 - ~~Host somewhere~~
-- Create sprites
+- ~~Create sprites~~
   - ~~Window~~
   - ~~Cell~~
   - ~~Numbered cells~~
   - ~~Flag cell~~
   - ~~Mine cells~~
   - ~~Explosion cell~~
-  - Score/Time digits
+  - ~~Score/Time digits~~
   - ~~Emoji expressions (Happy, Worried, Dead, Glasses)~~
   - ~~Ask friends for desktop pixelart~~
 - ~~Create the board data structure~~
@@ -37,7 +37,7 @@ And the background should look like the old times Windows
 - ~~Create click mechanics~~
 - ~~Implement middle click mechanics~~
 - ~~Create game over mechanics~~
-- Create timing and scoring
+- ~~Create timing and scoring~~
 - Create top bar Menus
   - New Game
   - Board Settings
@@ -163,6 +163,24 @@ player to show several cells at once, given that the player has already
 flagged the mines close to that cell.
 
 ![middle click](report-assets/middle-click.gif)
+
+### 13:00 - Scoring
+
+Scoring for _minesweeper_ is just the time it takes for the player
+to solve the game. The upper right 7-segment display shows the current
+time, while the left one shows the remaining mines that have not
+been flagged yet.
+
+![7 segment display](report-assets/7-segment-display.png)
+
+To create the 7-segment display, 8 `div`s are placed in the same
+container and positioned so that their borders looks like one segment.
+A limitation of this technique is that the middle segment (segment G)
+is formed by two pieces, segment G-top and segment G-bottom. Also,
+to turn on/off one segment, a *class* is added to filter the segment
+cutting its *brightness* to *40%*.
+
+![segments](report-assets/segments.png)
 
 ## License
 

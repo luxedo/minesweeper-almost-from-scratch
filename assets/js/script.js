@@ -19,10 +19,21 @@ class Board {
     this.size = width * height;
     this.mines = mines;
     this.element = element;
+    this.timeDelta = 0;
+    this.clockInterval = setInterval(() => {
+      if (!this.gameOver) {
+        const delta = (Date.now() - this.startTime) / 1000;
+        this.timeDelta = delta > 0 ? delta : 0;
+      }
+    }, 300);
     this.reset();
   }
   reset() {
+    this.started = false;
+    this.victory = false;
     this.gameOver = false;
+    this.startTime = NaN;
+    this.finalTime = NaN;
     this.data = Array(this.size)
       .fill(0)
       .map(
@@ -39,6 +50,7 @@ class Board {
     );
     this.countNeighbors();
     this.showBoard();
+    this.checkVictory();
   }
 
   getIndex(row, col) {
@@ -166,6 +178,10 @@ class Board {
 
     switch (event.button) {
       case this.LEFT_CLICK:
+        if (!this.started) {
+          this.startTime = Date.now();
+          this.started = true;
+        }
         if (cellData.state == this.HIDDEN) {
           if (cellData.value == this.EMPTY && cellData.neighbors == 0)
             this.floodFill(idx);
@@ -192,7 +208,9 @@ class Board {
         }
         break;
     }
-    this.checkVictory();
+    if (!this.gameOver) {
+      this.checkVictory();
+    }
     this.showBoard();
   }
   showAllMines() {
@@ -228,9 +246,17 @@ class Board {
       (acc, cellData) => acc + (cellData.state != this.SHOW),
       0
     );
+    this.remaining =
+      this.mines -
+      this.data.reduce(
+        (acc, cellData) => acc + (cellData.state == this.FLAG),
+        0
+      );
     if (hiddenCells == this.mines) {
       this.gameOver = true;
       this.victory = true;
+      this.remaining = 0;
+      this.finalTime = (Date.now() - this.startTime) / 1000;
       this.data.forEach((cellData) => {
         if (cellData.value == this.MINE) cellData.state = this.FLAG;
       });
@@ -244,8 +270,18 @@ window.addEventListener("DOMContentLoaded", (event) => {
   const nMines = 10;
   const boardDiv = document.getElementsByClassName("game-board-container")[0];
   const board = new Board(bWidth, bHeight, nMines, boardDiv);
+
   const emoji = document.getElementById("emoji");
   attachEmojiButton(board, emoji);
+
+  const timeElement = document.getElementById("score-time");
+  const minesElement = document.getElementById("score-mines");
+  setDigits(0, timeElement);
+  setDigits(nMines, minesElement);
+  setInterval(() => {
+    setDigits(board.timeDelta, timeElement);
+    setDigits(board.remaining, minesElement);
+  }, 300);
 });
 
 function attachEmojiButton(board, emoji) {
@@ -280,4 +316,48 @@ function attachEmojiButton(board, emoji) {
       emoji.firstElementChild.classList.add("emoji-happy");
     }
   };
+}
+
+function setDigits(value, digitContainerElement) {
+  value = value <= 999 ? value : 999;
+  const d1 = Math.floor(value / 100);
+  const d2 = Math.floor((value % 100) / 10);
+  const d3 = Math.floor(value % 10);
+  const digit1 = digitContainerElement.getElementsByClassName("digit1")[0];
+  const digit2 = digitContainerElement.getElementsByClassName("digit2")[0];
+  const digit3 = digitContainerElement.getElementsByClassName("digit3")[0];
+  setDigit(d1, digit1);
+  setDigit(d2, digit2);
+  setDigit(d3, digit3);
+}
+
+function setDigit(value, digitElement) {
+  const digitMap = {
+    0: [true, true, true, true, true, true, false, false],
+    1: [false, true, true, false, false, false, false, false],
+    2: [true, true, false, true, true, false, true, true],
+    3: [true, true, true, true, false, false, true, true],
+    4: [false, true, true, false, false, true, true, true],
+    5: [true, false, true, true, false, true, true, true],
+    6: [true, false, true, true, true, true, true, true],
+    7: [true, true, true, false, false, false, false, false],
+    8: [true, true, true, true, true, true, true, true],
+    9: [true, true, true, true, false, true, true, true],
+  };
+  const segmentMap = [
+    "segA",
+    "segB",
+    "segC",
+    "segD",
+    "segE",
+    "segF",
+    "segGt",
+    "segGb",
+  ];
+  const digitSegments = digitMap[value];
+  for (let i = 0; i < segmentMap.length; i++) {
+    const segment = digitElement.getElementsByClassName(segmentMap[i])[0];
+    if (digitSegments[i]) segment.classList.remove("segment-off");
+    else segment.classList.add("segment-off");
+  }
 }
