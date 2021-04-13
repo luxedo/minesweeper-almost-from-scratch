@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<!--
+minesweeper-almost-from-scratch
+This is an attempt of making the game pong using modern programming languages
+
+Copyright (C) 2021  Luiz Eduardo Amaral - <luizamaral306@gmail.com>
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+<html>
+  <head>
+    <title>MINESWEEPER ALMOST FROM SCRATCH</title>
+    <meta
+      name="description"
+      content="This is an attempt of making the game minesweeper using modern programming languages"
+    />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      id="favicon"
+      rel="icon"
+      href="assets/images/favicon.ico"
+      type="image/x-icon"
+    />
+
+    <!-- twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@_luxedo" />
+    <meta name="twitter:creator" content="@_luxedo" />
+    <meta name="twitter:title" content="MINESWEEPER ALMOST FROM SCRATCH" />
+    <meta
+      name="twitter:description"
+      content="This is an attempt of reproducing the game minesweeper using modern programming languages."
+    />
+    <meta
+      name="twitter:image"
+      content="https://github.com/luxedo/minesweeper-almost-from-scratch/raw/master/public/assets/images/opengraph.png"
+    />
+    <!-- opengraph -->
+    <meta property="og:title" content="MINESWEEPER ALMOST FROM SCRATCH" />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:url"
+      content="https://luxedo.github.io/minesweeper-almost-from-scratch/"
+    />
+    <meta
+      property="og:image"
+      content="https://github.com/luxedo/minesweeper-almost-from-scratch/raw/master/public/assets/images/opengraph.png"
+    />
+    <meta property="og:image:width" content="520" />
+    <meta property="og:image:height" content="360" />
+    <meta
+      property="og:description"
+      content="This is an attempt of reproducing the game minesweeper using modern programming languages."
+    />
+
+    <!--  Schema.org -->
+    <meta itemprop="name" content="MINESWEEPER ALMOST FROM SCRATCH" />
+    <meta
+      itemprop="description"
+      content="This is an attempt of reproducing the game minesweeper using modern programming languages."
+    />
+    <meta
+      itemprop="image"
+      content="https://github.com/luxedo/minesweeper-almost-from-scratch/raw/master/public/assets/images/opengraph.png"
+    />
+    <!-- update the version number as needed -->
+    <script defer src="/__/firebase/8.4.0/firebase-app.js"></script>
+    <!-- include only the Firebase features as you need -->
+    <script defer src="/__/firebase/8.4.0/firebase-firestore.js"></script>
+    <!-- 
+      initialize the SDK after all desired features are loaded, set useEmulator to false
+      to avoid connecting the SDK to running emulators.
+    -->
+    <script defer src="/__/firebase/init.js?useEmulator=true"></script>
+
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <script src="assets/js/7digits.js"></script>
+    <script src="assets/js/minesweeper.js"></script>
+    <script src="assets/js/script.js"></script>
+    <script src="assets/js/firebase.js"></script>
+  </head>
+  <body>
+    <div class="container mt6">
+      <div class="window noselect" oncontextmenu="return false">
+        <div class="titlebar bar">
+          <span class="title-button title-dash"><hr /></span>
+          <span>Minesweeper</span>
+          <span class="title-button title-arrow"><span></span></span>
+        </div>
+        <div class="menubar bar">
+          <nav role="navigation">
+            <ul>
+              <li>
+                Game
+                <ul class="dropdown">
+                  <li onclick="newGame();">New Game</li>
+                  <li onclick="setDifficulty('beginner');">Beginner</li>
+                  <li onclick="setDifficulty('intermediate');">Intermediate</li>
+                  <li onclick="setDifficulty('advanced');">Advanced</li>
+                  <li onclick="loadHighScores();">High Scores</li>
+                </ul>
+              </li>
+              <li>
+                Help
+                <ul class="dropdown">
+                  <li>About</li>
+                </ul>
+              </li>
+            </ul>
+          </nav>
+        </div>
+        <div class="game-frame">
+          <div class="game-frame-container">
+            <div class="game-top">
+              <div class="game-top-container">
+                <div class="segment-display" id="score-mines">
+                  <div class="digit digit1">
+                    <div class="segA"></div>
+                    <div class="segB"></div>
+                    <div class="segC"></div>
+                    <div class="segD"></div>
+                    <div class="segE"></div>
+                    <div class="segF"></div>
+                    <div class="segGt"></div>
+                    <div class="segGb"></div>
+                  </div>
+                  <div class="digit digit2">
+                    <div class="segA"></div>
+                    <div class="segB"></div>
+                    <div class="segC"></div>
+                    <div class="segD"></div>
+                    <div class="segE"></div>
+                    <div class="segF"></div>
+                    <div class="segGt"></div>
+                    <div class="segGb"></div>
+                  </div>
+                  <div class="digit digit3">
+                    <div class="segA"></div>
+                    <div class="segB"></div>
+                    <div class="segC"></div>
+                    <div class="segD"></div>
+                    <div class="segE"></div>
+                    <div class="segF"></div>
+                    <div class="segGt"></div>
+                    <div class="segGb"></div>
+                  </div>
+                </div>
+                <div class="reset" id="emoji">
+                  <div class="emoji-happy"></div>
+                </div>
+                <div class="segment-display" id="score-time">
+                  <div class="digit digit1">
+                    <div class="segA"></div>
+                    <div class="segB"></div>
+                    <div class="segC"></div>
+                    <div class="segD"></div>
+                    <div class="segE"></div>
+                    <div class="segF"></div>
+                    <div class="segGt"></div>
+                    <div class="segGb"></div>
+                  </div>
+                  <div class="digit digit2">
+                    <div class="segA"></div>
+                    <div class="segB"></div>
+                    <div class="segC"></div>
+                    <div class="segD"></div>
+                    <div class="segE"></div>
+                    <div class="segF"></div>
+                    <div class="segGt"></div>
+                    <div class="segGb"></div>
+                  </div>
+                  <div class="digit digit3">
+                    <div class="segA"></div>
+                    <div class="segB"></div>
+                    <div class="segC"></div>
+                    <div class="segD"></div>
+                    <div class="segE"></div>
+                    <div class="segF"></div>
+                    <div class="segGt"></div>
+                    <div class="segGb"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="game-board">
+              <div class="game-board-container"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- modal windows -->
+      <div id="high-scores-container">
+        <div class="titlebar bar">
+          <span>HighScores</span>
+          <span
+            class="title-button title-x noselect"
+            onclick="closeHighScores();"
+            ><span>X</span></span
+          >
+        </div>
+        <div class="menubar bar">
+          <div class="high-score-name" id="high-score-name">
+            <div>
+              <p>Congratulations!</p>
+              <p>Score: <span id="score-span"></span></p>
+              <p>What's your name?</p>
+            </div>
+            <div>
+              <input
+                type="text"
+                minlength="3"
+                maxlength="12"
+                id="player-name"
+              />
+            </div>
+            <div><button id="submit-high-score">Submit</button></div>
+          </div>
+          <div class="high-scores" id="high-scores">
+            <div>
+              Beginner:
+              <ol id="high-scores-beginner"></ol>
+            </div>
+            <div>
+              Intermediate:
+              <ol id="high-scores-intermediate"></ol>
+            </div>
+            <div>
+              Advanced:
+              <ol id="high-scores-advanced"></ol>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- footer -->
+      <footer class="footer">
+        <p>
+          <a href="https://github.com/luxedo/minesweeper-almost-from-scratch">
+            <img src="assets/images/GitHub-Mark-Gray-32px.png" /><span
+              >Check it on GitHub!</span
+            >
+          </a>
+        </p>
+        <p>
+          Copyright (c) 2021 Luiz Eduardo Amaral -
+          <a
+            href="mailto:luizamaral306@gmail.com?Subject=minesweeper-almost-from-scratch"
+          >
+            &lt;luizamaral306@gmail.com&gt;
+          </a>
+        </p>
+        <p>
+          This software is under a
+          <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GNU GPL3</a>
+          license. Have fun!
+          <span style="font-size: 2em; vertical-align: top;">😉</span>
+        </p>
+      </footer>
+    </div>
+  </body>
+</html>

@@ -1,3 +1,22 @@
+/*
+minesweeper-almost-from-scratch
+This is an attempt of making the game pong using modern programming languages
+
+Copyright (C) 2021  Luiz Eduardo Amaral - <luizamaral306@gmail.com>
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
 class Board {
   // Board values
   EMPTY = "empty";
@@ -13,12 +32,12 @@ class Board {
   MIDDLE_CLICK = 1;
   RIGHT_CLICK = 2;
 
-  constructor(width, height, mines, element) {
+  constructor(width, height, mines) {
     this.width = width;
     this.height = height;
     this.size = width * height;
     this.mines = mines;
-    this.element = element;
+    this.element = document.createElement("div");
     this.timeDelta = 0;
 
     // Setup events
@@ -295,183 +314,4 @@ class Board {
     });
     this.element.dispatchEvent(minesEvent);
   }
-}
-
-window.addEventListener("DOMContentLoaded", (event) => {
-  const difficuties = {
-    beginner: {
-      width: 9,
-      height: 9,
-      mines: 10,
-    },
-    intermediate: {
-      width: 16,
-      height: 16,
-      mines: 40,
-    },
-    advanced: {
-      width: 30,
-      height: 16,
-      mines: 99,
-    },
-  };
-  const boardElement = document.getElementsByClassName(
-    "game-board-container"
-  )[0];
-
-  // Setup event listeners
-  const timeElement = document.getElementById("score-time");
-  boardElement.addEventListener("updateTime", (event) => {
-    setDigits(event.detail.time, timeElement);
-  });
-  const minesElement = document.getElementById("score-mines");
-  boardElement.addEventListener("updateMines", (event) => {
-    setDigits(event.detail.mines, minesElement);
-  });
-  boardElement.addEventListener("resetGame", (event) => {
-    board.reset();
-  });
-  boardElement.addEventListener("setDifficulty", (event) => {
-    const { width, height, mines } = difficuties[event.detail.difficulty];
-    board.setSize(width, height, mines);
-  });
-
-  // Instantiate board
-  const board = new Board(
-    difficuties.beginner.width,
-    difficuties.beginner.height,
-    difficuties.beginner.mines,
-    boardElement
-  );
-
-  const emoji = document.getElementById("emoji");
-  attachEmojiButton(board, emoji);
-
-  // Set menu behavior
-  const menus = document.querySelectorAll("nav > ul > li");
-  menus.forEach((menu) => {
-    const menuItems = menu.querySelector("ul");
-    menu.onclick = () => {
-      const visibility = menuItems.style.getPropertyValue("visibility");
-      menuItems.style.setProperty(
-        "visibility",
-        visibility == "visible" ? "hidden" : "visible"
-      );
-    };
-    let leftBox = false;
-    menu.onmouseleave = () => {
-      leftBox = true;
-      setTimeout(() => {
-        if (leftBox) menuItems.style.setProperty("visibility", "hidden");
-      }, 400);
-    };
-    menu.onmouseenter = () => {
-      leftBox = false;
-    };
-  });
-});
-
-function attachEmojiButton(board, emoji) {
-  emoji.onmousedown = (event) => {
-    emoji.classList.add("pressed");
-  };
-  emoji.onmouseup = (event) => {
-    emoji.classList.remove("pressed");
-    const resetEvent = new Event("resetGame");
-    board.element.dispatchEvent(resetEvent);
-  };
-  emoji.onmouseleave = (event) => {
-    emoji.classList.remove("pressed");
-  };
-
-  document.onmousedown = (event) => {
-    if (!board.gameOver) {
-      emoji.firstElementChild.classList.remove("emoji-dead");
-      emoji.firstElementChild.classList.remove("emoji-glasses");
-      emoji.firstElementChild.classList.remove("emoji-happy");
-      emoji.firstElementChild.classList.add("emoji-worried");
-    }
-  };
-  document.onmouseup = (event) => {
-    emoji.firstElementChild.classList.remove("emoji-worried");
-    if (board.gameOver) {
-      emoji.firstElementChild.classList.add(
-        board.victory ? "emoji-glasses" : "emoji-dead"
-      );
-    } else {
-      emoji.firstElementChild.classList.remove("emoji-dead");
-      emoji.firstElementChild.classList.remove("emoji-glasses");
-      emoji.firstElementChild.classList.add("emoji-happy");
-    }
-  };
-}
-
-function setDigits(value, digitContainerElement) {
-  value = value <= 999 ? value : 999;
-  const d1 = Math.floor(value / 100);
-  const d2 = Math.floor((value % 100) / 10);
-  const d3 = Math.floor(value % 10);
-  const digit1 = digitContainerElement.getElementsByClassName("digit1")[0];
-  const digit2 = digitContainerElement.getElementsByClassName("digit2")[0];
-  const digit3 = digitContainerElement.getElementsByClassName("digit3")[0];
-  setDigit(d1, digit1);
-  setDigit(d2, digit2);
-  setDigit(d3, digit3);
-}
-
-function setDigit(value, digitElement) {
-  const digitMap = {
-    0: [true, true, true, true, true, true, false, false],
-    1: [false, true, true, false, false, false, false, false],
-    2: [true, true, false, true, true, false, true, true],
-    3: [true, true, true, true, false, false, true, true],
-    4: [false, true, true, false, false, true, true, true],
-    5: [true, false, true, true, false, true, true, true],
-    6: [true, false, true, true, true, true, true, true],
-    7: [true, true, true, false, false, false, false, false],
-    8: [true, true, true, true, true, true, true, true],
-    9: [true, true, true, true, false, true, true, true],
-  };
-  const segmentMap = [
-    "segA",
-    "segB",
-    "segC",
-    "segD",
-    "segE",
-    "segF",
-    "segGt",
-    "segGb",
-  ];
-  const digitSegments = digitMap[value];
-  for (let i = 0; i < segmentMap.length; i++) {
-    const segment = digitElement.getElementsByClassName(segmentMap[i])[0];
-    if (digitSegments[i]) segment.classList.remove("segment-off");
-    else segment.classList.add("segment-off");
-  }
-}
-
-function newGame() {
-  const boardElement = document.getElementsByClassName(
-    "game-board-container"
-  )[0];
-  const resetEvent = new Event("resetGame");
-  boardElement.dispatchEvent(resetEvent);
-  Array.from(document.getElementsByClassName("dropdown")).forEach(
-    (dropdown) => {
-      dropdown.style.setProperty("display", "none");
-      setTimeout(() => {
-        dropdown.style.removeProperty("display");
-      }, 100);
-    }
-  );
-}
-
-function setDifficulty(difficulty) {
-  const boardElement = document.getElementsByClassName(
-    "game-board-container"
-  )[0];
-  const difficultyEvent = new CustomEvent("setDifficulty", {
-    detail: { difficulty },
-  });
-  boardElement.dispatchEvent(difficultyEvent);
 }

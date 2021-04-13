@@ -39,12 +39,16 @@ And the background should look like the old times Windows
 - ~~Create game over mechanics~~
 - ~~Create timing and scoring~~
 - Global high scores 
+- High score screen
 - ~~Create top bar Menus~~
   - ~~New Game~~
   - ~~Board Settings~~
   - About/Credits
-- Opengraph and icons
+- ~~Opengraph and icons~~
+- Background icons
 - Fix playtesters requests
+  - Windows easter eggs 
+  - Negative mine counter
 - Finished!
 
 ## Progress reports
