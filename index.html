@@ -77,22 +77,40 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     />
 
     <link rel="stylesheet" href="assets/css/style.css" />
-    <script src="assets/js/script.js" type="module"></script>
+    <script src="assets/js/script.js"></script>
   </head>
 
   <body>
     <div class="container mt6">
-      <div class="window" oncontextmenu="return false">
-        <div class="titlebar bar ui">
+      <div class="window noselect" oncontextmenu="return false">
+        <div class="titlebar bar">
           <span class="title-button title-dash"><hr /></span>
           <span>Minesweeper</span>
           <span class="title-button title-arrow"><span></span></span>
         </div>
-        <div class="menubar bar ui">
-          <span>Game</span>
-          <span>Help</span>
+        <div class="menubar bar">
+          <nav role="navigation">
+            <ul>
+              <li>
+                Game
+                <ul class="dropdown">
+                  <li onclick="newGame();">New Game</li>
+                  <li onclick="setDifficulty('beginner');">Beginner</li>
+                  <li onclick="setDifficulty('intermediate');">Intermediate</li>
+                  <li onclick="setDifficulty('advanced');">Advanced</li>
+                  <li>High Scores</li>
+                </ul>
+              </li>
+              <li>
+                Help
+                <ul class="dropdown">
+                  <li>About</li>
+                </ul>
+              </li>
+            </ul>
+          </nav>
         </div>
-        <div class="game-frame ui">
+        <div class="game-frame">
           <div class="game-frame-container">
             <div class="game-top">
               <div class="game-top-container">
@@ -133,7 +151,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 </div>
                 <div class="segment-display" id="score-time">
                   <div class="digit digit1">
-                    <div class="segA segment-off"></div>
+                    <div class="segA"></div>
                     <div class="segB"></div>
                     <div class="segC"></div>
                     <div class="segD"></div>

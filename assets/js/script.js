@@ -20,12 +20,32 @@ class Board {
     this.mines = mines;
     this.element = element;
     this.timeDelta = 0;
+
+    // Setup events
+    const timeEvent = new CustomEvent("updateTime", {
+      detail: { time: 0 },
+    });
+    this.element.dispatchEvent(timeEvent);
+    this.previousDelta = 0;
     this.clockInterval = setInterval(() => {
       if (!this.gameOver) {
         const delta = (Date.now() - this.startTime) / 1000;
+        this.previousDelta = this.timeDelta;
         this.timeDelta = delta > 0 ? delta : 0;
+        if (Math.floor(this.previousDelta) != Math.floor(this.timeDelta)) {
+          const timeEvent = new CustomEvent("updateTime", {
+            detail: { time: this.timeDelta },
+          });
+          this.element.dispatchEvent(timeEvent);
+        }
       }
-    }, 300);
+    }, 100);
+    const minesEvent = new CustomEvent("updateMines", {
+      detail: { mines: this.mines },
+    });
+    this.element.dispatchEvent(minesEvent);
+
+    // Reset board
     this.reset();
   }
   reset() {
@@ -51,6 +71,13 @@ class Board {
     this.countNeighbors();
     this.showBoard();
     this.checkVictory();
+  }
+  setSize(width, height, mines) {
+    this.width = width;
+    this.height = height;
+    this.size = width * height;
+    this.mines = mines;
+    this.reset();
   }
 
   getIndex(row, col) {
@@ -261,27 +288,87 @@ class Board {
         if (cellData.value == this.MINE) cellData.state = this.FLAG;
       });
     }
+
+    // Warn others that
+    const minesEvent = new CustomEvent("updateMines", {
+      detail: { mines: this.remaining },
+    });
+    this.element.dispatchEvent(minesEvent);
   }
 }
 
 window.addEventListener("DOMContentLoaded", (event) => {
-  const bWidth = 8;
-  const bHeight = 8;
-  const nMines = 10;
-  const boardDiv = document.getElementsByClassName("game-board-container")[0];
-  const board = new Board(bWidth, bHeight, nMines, boardDiv);
+  const difficuties = {
+    beginner: {
+      width: 9,
+      height: 9,
+      mines: 10,
+    },
+    intermediate: {
+      width: 16,
+      height: 16,
+      mines: 40,
+    },
+    advanced: {
+      width: 30,
+      height: 16,
+      mines: 99,
+    },
+  };
+  const boardElement = document.getElementsByClassName(
+    "game-board-container"
+  )[0];
+
+  // Setup event listeners
+  const timeElement = document.getElementById("score-time");
+  boardElement.addEventListener("updateTime", (event) => {
+    setDigits(event.detail.time, timeElement);
+  });
+  const minesElement = document.getElementById("score-mines");
+  boardElement.addEventListener("updateMines", (event) => {
+    setDigits(event.detail.mines, minesElement);
+  });
+  boardElement.addEventListener("resetGame", (event) => {
+    board.reset();
+  });
+  boardElement.addEventListener("setDifficulty", (event) => {
+    const { width, height, mines } = difficuties[event.detail.difficulty];
+    board.setSize(width, height, mines);
+  });
+
+  // Instantiate board
+  const board = new Board(
+    difficuties.beginner.width,
+    difficuties.beginner.height,
+    difficuties.beginner.mines,
+    boardElement
+  );
 
   const emoji = document.getElementById("emoji");
   attachEmojiButton(board, emoji);
 
-  const timeElement = document.getElementById("score-time");
-  const minesElement = document.getElementById("score-mines");
-  setDigits(0, timeElement);
-  setDigits(nMines, minesElement);
-  setInterval(() => {
-    setDigits(board.timeDelta, timeElement);
-    setDigits(board.remaining, minesElement);
-  }, 300);
+  // Set menu behavior
+  const menus = document.querySelectorAll("nav > ul > li");
+  menus.forEach((menu) => {
+    const menuItems = menu.querySelector("ul");
+    menu.onclick = () => {
+      const visibility = menuItems.style.getPropertyValue("visibility");
+      menuItems.style.setProperty(
+        "visibility",
+        visibility == "visible" ? "hidden" : "visible"
+      );
+    };
+    let leftBox = false;
+    menu.onmouseleave = () => {
+      leftBox = true;
+      setTimeout(() => {
+        if (leftBox) menuItems.style.setProperty("visibility", "hidden");
+      }, 400);
+    };
+    menu.onmouseenter = () => {
+      leftBox = false;
+    };
+  });
 });
 
 function attachEmojiButton(board, emoji) {
@@ -290,7 +377,8 @@ function attachEmojiButton(board, emoji) {
   };
   emoji.onmouseup = (event) => {
     emoji.classList.remove("pressed");
-    board.reset();
+    const resetEvent = new Event("resetGame");
+    board.element.dispatchEvent(resetEvent);
   };
   emoji.onmouseleave = (event) => {
     emoji.classList.remove("pressed");
@@ -360,4 +448,30 @@ function setDigit(value, digitElement) {
     if (digitSegments[i]) segment.classList.remove("segment-off");
     else segment.classList.add("segment-off");
   }
+}
+
+function newGame() {
+  const boardElement = document.getElementsByClassName(
+    "game-board-container"
+  )[0];
+  const resetEvent = new Event("resetGame");
+  boardElement.dispatchEvent(resetEvent);
+  Array.from(document.getElementsByClassName("dropdown")).forEach(
+    (dropdown) => {
+      dropdown.style.setProperty("display", "none");
+      setTimeout(() => {
+        dropdown.style.removeProperty("display");
+      }, 100);
+    }
+  );
+}
+
+function setDifficulty(difficulty) {
+  const boardElement = document.getElementsByClassName(
+    "game-board-container"
+  )[0];
+  const difficultyEvent = new CustomEvent("setDifficulty", {
+    detail: { difficulty },
+  });
+  boardElement.dispatchEvent(difficultyEvent);
 }

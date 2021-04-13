@@ -38,9 +38,10 @@ And the background should look like the old times Windows
 - ~~Implement middle click mechanics~~
 - ~~Create game over mechanics~~
 - ~~Create timing and scoring~~
-- Create top bar Menus
-  - New Game
-  - Board Settings
+- Global high scores 
+- ~~Create top bar Menus~~
+  - ~~New Game~~
+  - ~~Board Settings~~
   - About/Credits
 - Opengraph and icons
 - Fix playtesters requests
@@ -181,6 +182,14 @@ to turn on/off one segment, a *class* is added to filter the segment
 cutting its *brightness* to *40%*.
 
 ![segments](report-assets/segments.png)
+
+### 16:00 - Menus
+The menus can be easily done with plain CSS, but I wanted to give a
+windows menu bar feel, so I added a few JS tweaks. The most impactful
+is that the cursor can leave the menus and it won't close for a little
+while.
+
+![menus](report-assets/menus.gif)
 
 ## License
 
