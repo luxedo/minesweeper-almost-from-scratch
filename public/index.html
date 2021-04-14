@@ -21,11 +21,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <html>
   <head>
     <title>MINESWEEPER ALMOST FROM SCRATCH</title>
+    <meta charset="utf-8" />
     <meta
       name="description"
       content="This is an attempt of making the game minesweeper using modern programming languages"
     />
-    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link
       id="favicon"
@@ -115,7 +115,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
               <li>
                 Help
                 <ul class="dropdown">
-                  <li>About</li>
+                  <li onclick="showAbout();">About</li>
                 </ul>
               </li>
             </ul>
@@ -241,6 +241,48 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
               Advanced:
               <ol id="high-scores-advanced"></ol>
             </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="about-container">
+        <div class="titlebar bar">
+          <span>About</span>
+          <span class="title-button title-x noselect" onclick="closeAbout();"
+            ><span>X</span></span
+          >
+        </div>
+        <div class="menubar bar">
+          <div class="about">
+            <p>
+              Minesweeper Almost From Scratch
+              <br/>
+              <span class="cell-content cell-content-n1"></span>
+              <span class="cell-content cell-content-n2"></span>
+              <span class="cell-content cell-content-n3"></span>
+              <span class="cell-content cell-content-n4"></span>
+              <span class="cell-content cell-content-n5"></span>
+              <span class="cell-content cell-content-n6"></span>
+              <span class="cell-content cell-content-n7"></span>
+              <span class="cell-content cell-content-n8"></span>
+              <span class="cell-content cell-content-mine"></span>
+              <span class="cell-content cell-content-flag"></span>
+            </p>
+            <p>
+              This is an attempt of making the game minesweeper using modern
+              programming languages. All the assets in the game are CSS only
+              except for the background. You can find more information on how
+              this was built at it's
+              <a
+                href="https://github.com/luxedo/minesweeper-almost-from-scratch"
+              >
+                github repository.
+              </a>
+            </p>
+            <p>
+              Special thanks to Jorge, Jorgito, Jorjelvs and Jorgeson for the
+              background pixelart and company.
+            </p>
           </div>
         </div>
       </div>

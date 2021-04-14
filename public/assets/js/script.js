@@ -119,6 +119,13 @@ function setupEvents(board) {
       }
     };
   };
+  const aboutElement = document.getElementById("about-container");
+  window.showAbout = () => {
+    aboutElement.style.setProperty("display", "block");
+  };
+  window.closeAbout = () => {
+    aboutElement.style.setProperty("display", "none");
+  };
   playerNameEl.addEventListener("keyup", (event) => {
     if (event.keyCode === 13) {
       event.preventDefault();

@@ -229,6 +229,19 @@ nav ul li:active {
   margin: 0;
 }
 
+#about-container {
+  position: absolute;
+  top: 8em;
+  max-width: 40em;
+  display: none;
+}
+#about-container > .menubar {
+  padding: 1em;
+}
+#about-container p {
+  margin-bottom: 2em;
+}
+
 /* SPRITES */
 .title-dash {
   float: left;

@@ -7,7 +7,6 @@ function setDigits(value, digitContainerElement) {
   value = Math.abs(value);
   const d2 = Math.floor((value % 100) / 10);
   const d3 = Math.floor(value % 10);
-  console.log(d1, d2, d3);
   setDigit(d1, digit1);
   setDigit(d2, digit2);
   setDigit(d3, digit3);

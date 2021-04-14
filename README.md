@@ -43,12 +43,11 @@ And the background should look like the old times Windows
 - ~~Create top bar Menus~~
   - ~~New Game~~
   - ~~Board Settings~~
-  - About/Credits
+  - ~~About/Credits~~
 - ~~Opengraph and icons~~
 - Background icons
-- Fix playtesters requests
-  - Windows easter eggs 
-  - Negative mine counter
+- ~~Fix playtesters requests~~
+  - ~~Negative mine counter~~
 - Finished!
 
 ## Progress reports
@@ -201,6 +200,12 @@ store any data. I setted up up a firebase app to host the game and the
 high scores. Unfortunatelly the host name is not nice, but it will do
 for this project.
 [https://minesweeper-6cd93.web.app/](https://minesweeper-6cd93.web.app/)
+
+### 23:00 - About screen
+The about screen uses the same system for the high scores window, it's
+just a modal that opens and closes when clicking the X button.
+
+![about](report-assets/about.png)
 
 ## License
 
