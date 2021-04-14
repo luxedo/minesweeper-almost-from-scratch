@@ -46,8 +46,10 @@ And the background should look like the old times Windows
   - ~~About/Credits~~
 - ~~Opengraph and icons~~
 - Background icons
-- ~~Fix playtesters requests~~
+- Fix playtesters requests
   - ~~Negative mine counter~~
+  - Sample mines after first click
+  - Footer over board in smaller resolutions
 - Finished!
 
 ## Progress reports
