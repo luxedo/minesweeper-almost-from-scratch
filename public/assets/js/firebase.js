@@ -37,7 +37,7 @@
       scores[difficulty] = await db
         .collection("high-scores")
         .where("difficulty", "==", difficulty)
-        .orderBy("score", "desc")
+        .orderBy("score", "asc")
         .orderBy("timestamp", "asc")
         .limit(10)
         .get()

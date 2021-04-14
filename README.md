@@ -16,7 +16,7 @@ And the background should look like the old times Windows
 
 ![Windows 3.x](report-assets/windows3x.png)
 
-#### Check it out [here](https://minesweeper-almost-from-scratch.firebaseapp.com/)
+#### Check it out [here](https://luxedo.github.io/minesweeper-almost-from-scratch/)
 
 ## Goals
 
@@ -38,8 +38,8 @@ And the background should look like the old times Windows
 - ~~Implement middle click mechanics~~
 - ~~Create game over mechanics~~
 - ~~Create timing and scoring~~
-- Global high scores 
-- High score screen
+- ~~Global high scores~~
+- ~~High score screen~~
 - ~~Create top bar Menus~~
   - ~~New Game~~
   - ~~Board Settings~~
@@ -194,6 +194,13 @@ is that the cursor can leave the menus and it won't close for a little
 while.
 
 ![menus](report-assets/menus.gif)
+
+### 21:00 - Global High Scores
+To use high scores, gh-pages does not fit quite well since we can't 
+store any data. I setted up up a firebase app to host the game and the 
+high scores. Unfortunatelly the host name is not nice, but it will do
+for this project.
+[https://minesweeper-6cd93.web.app/](https://minesweeper-6cd93.web.app/)
 
 ## License
 
