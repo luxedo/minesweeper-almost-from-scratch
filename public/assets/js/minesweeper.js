@@ -84,10 +84,6 @@ class Board {
             gameOver: false,
           })
       );
-    this.randomSampleIndexes(this.size, this.mines).forEach(
-      (idx) => (this.data[idx].value = this.MINE)
-    );
-    this.countNeighbors();
     this.showBoard();
     this.checkVictory();
   }
@@ -227,6 +223,13 @@ class Board {
         if (!this.started) {
           this.startTime = Date.now();
           this.started = true;
+          do {
+            this.data.forEach((cell) => (cell.value = this.EMPTY));
+            this.randomSampleIndexes(this.size, this.mines).forEach(
+              (idx) => (this.data[idx].value = this.MINE)
+            );
+          } while (cellData.value == this.MINE);
+          this.countNeighbors();
         }
         if (cellData.state == this.HIDDEN) {
           if (cellData.value == this.EMPTY && cellData.neighbors == 0)

@@ -49,7 +49,7 @@ And the background should look like the old times Windows
 - Fix playtesters requests
   - ~~Negative mine counter~~
   - [Original easter egg](https://en.wikipedia.org/wiki/Xyzzy_(computing)#Other_computer_games_and_media)
-  - Sample mines after first click
+  - ~~Sample mines after first click~~
   - Footer over board in smaller resolutions
   - F2 refreshes game
   - Question mark cell
