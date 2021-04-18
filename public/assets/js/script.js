@@ -58,14 +58,14 @@ function setupEvents(board) {
   // Board event listeners
   const timeElement = document.getElementById("score-time");
   board.element.addEventListener("updateTime", (event) => {
-    setDigits(event.detail.time, timeElement);
+    window.setDigits(event.detail.time, timeElement);
   });
   const minesElement = document.getElementById("score-mines");
   board.element.addEventListener("updateMines", (event) => {
-    setDigits(event.detail.mines, minesElement);
+    window.setDigits(event.detail.mines, minesElement);
   });
-  setDigits(0, timeElement);
-  setDigits(board.mines, minesElement);
+  window.setDigits(0, timeElement);
+  window.setDigits(board.mines, minesElement);
 
   // DOM functions
   window.newGame = () => {
@@ -105,9 +105,11 @@ function setupEvents(board) {
     highScoresElement.style.setProperty("display", "none");
     highScores.style.setProperty("display", "none");
     highScoreName.style.setProperty("display", "block");
+    highScoresElement.style.removeProperty("max-width");
   };
   window.setHighScore = (score, difficulty, timestamp) => {
     highScoresElement.style.setProperty("display", "block");
+    highScoresElement.style.setProperty("max-width", "20em");
     highScores.style.setProperty("display", "none");
     highScoreName.style.setProperty("display", "block");
     scoreSpan.textContent = score;
@@ -115,7 +117,7 @@ function setupEvents(board) {
       const playerName = playerNameEl.value;
       if (playerName.length >= 3) {
         fb.setScore(playerName, score, difficulty, timestamp);
-        loadHighScores();
+        window.loadHighScores();
       }
     };
   };
@@ -132,6 +134,13 @@ function setupEvents(board) {
       submitHighScoreBtn.click();
     }
   });
+
+  // Keyboard events
+  document.addEventListener("keyup", (event) => {
+    if (event.key == "F2") {
+      window.newGame();
+    }
+  });
 }
 
 function setupEmojiButton(board) {
@@ -142,7 +151,7 @@ function setupEmojiButton(board) {
   };
   emoji.onmouseup = (event) => {
     emoji.classList.remove("pressed");
-    newGame();
+    window.newGame();
   };
   emoji.onmouseleave = (event) => {
     emoji.classList.remove("pressed");
@@ -162,7 +171,7 @@ function setupEmojiButton(board) {
       if (board.victory) {
         emoji.firstElementChild.classList.add("emoji-glasses");
         if (!board.sentHighScore) {
-          setHighScore(board.timeDelta, board.difficulty, Date.now());
+          window.setHighScore(board.timeDelta, board.difficulty, Date.now());
           board.sentHighScore = true;
         }
       } else {
@@ -190,7 +199,7 @@ function setupMenu() {
     let leftBox = false;
     menu.onmouseleave = () => {
       leftBox = true;
-      setTimeout(() => {
+      window.setTimeout(() => {
         if (leftBox) menuItems.style.setProperty("visibility", "hidden");
       }, 400);
     };

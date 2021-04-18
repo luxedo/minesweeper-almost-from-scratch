@@ -228,6 +228,9 @@ nav ul li:active {
 .high-scores p {
   margin: 0;
 }
+.high-score-name {
+  text-align: center;
+}
 .high-score-name input {
   width: 8em;
 }
