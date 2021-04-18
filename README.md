@@ -53,7 +53,7 @@ And the background should look like the old times Windows
   - ~~Footer over board in smaller resolutions~~
   - ~~F2 -> new game~~
   - Question mark cell
-  - Left + Right click flood fill
+  - ~~Left + Right click flood fill~~
 - Finished!
 
 ## Progress reports

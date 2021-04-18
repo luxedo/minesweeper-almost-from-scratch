@@ -33,6 +33,7 @@ class Board {
   RIGHT_CLICK = 2;
 
   constructor(width, height, mines) {
+    this.holdRight = false;
     this.width = width;
     this.height = height;
     this.size = width * height;
@@ -192,10 +193,13 @@ class Board {
     }
   }
   cellMouseDown(event, idx) {
+    if (event.button == this.RIGHT_CLICK) this.holdRight = true;
     if (this.gameOver) return;
-
     const cellData = this.data[idx];
-    switch (event.button) {
+    let click = event.button;
+    if (event.button == this.LEFT_CLICK && this.holdRight)
+      click = this.MIDDLE_CLICK;
+    switch (click) {
       case this.LEFT_CLICK:
         if (cellData.state == this.HIDDEN) {
           event.target.classList.remove("cell-hidden");
@@ -204,21 +208,31 @@ class Board {
         break;
       case this.MIDDLE_CLICK:
         if (cellData.state == this.SHOW) {
-          this.getNeighborsIndexes(idx).forEach((_idx) =>
-            this.cellMouseDown(
-              { button: this.LEFT_CLICK, target: this.view[_idx] },
-              _idx
-            )
-          );
+          this.getNeighborsIndexes(idx).forEach((_idx) => {
+            if (this.data[_idx].state == this.HIDDEN) {
+              this.view[_idx].classList.remove("cell-hidden");
+              this.view[_idx].classList.add("cell-show");
+            }
+          });
         }
+        break;
+      case this.RIGHT_CLICK:
+        if (cellData.state != this.SHOW) {
+          cellData.state =
+            cellData.state == this.HIDDEN ? this.FLAG : this.HIDDEN;
+        }
+        this.showBoard();
         break;
     }
   }
   cellMouseUp(event, idx) {
+    if (event.button == this.RIGHT_CLICK) this.holdRight = false;
     if (this.gameOver) return;
     const cellData = this.data[idx];
-
-    switch (event.button) {
+    let click = event.button;
+    if (event.button == this.LEFT_CLICK && this.holdRight && !event.middle)
+      click = this.MIDDLE_CLICK;
+    switch (click) {
       case this.LEFT_CLICK:
         if (!this.started) {
           this.startTime = Date.now();
@@ -235,7 +249,6 @@ class Board {
           if (cellData.value == this.EMPTY && cellData.neighbors == 0)
             this.floodFill(idx);
           else cellData.state = this.SHOW;
-
           if (cellData.value == this.MINE) {
             cellData.gameOver = true;
             this.gameOver = true;
@@ -243,17 +256,9 @@ class Board {
           }
         }
         break;
-
       case this.MIDDLE_CLICK:
         if (cellData.state == this.SHOW) {
           this.showNeighbors(idx);
-        }
-        break;
-
-      case this.RIGHT_CLICK:
-        if (cellData.state != this.SHOW) {
-          cellData.state =
-            cellData.state == this.HIDDEN ? this.FLAG : this.HIDDEN;
         }
         break;
     }
@@ -286,7 +291,7 @@ class Board {
     if (flaggedNeighbors >= cellData.neighbors) {
       neighbors.forEach((_idx) => {
         if (this.data[_idx].state == this.HIDDEN)
-          this.cellMouseUp({ button: this.LEFT_CLICK }, _idx);
+          this.cellMouseUp({ button: this.LEFT_CLICK, middle: true }, _idx);
       });
     }
   }
