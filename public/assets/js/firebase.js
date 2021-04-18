@@ -54,4 +54,13 @@
       timestamp: timestamp,
     });
   };
+
+  window.fb.getRank = async (score, difficulty) => {
+    return await db
+      .collection("high-scores")
+      .where("difficulty", "==", difficulty)
+      .where("score", "<=", score)
+      .get()
+      .then((queryS) => queryS.docs.length + 1);
+  };
 })();

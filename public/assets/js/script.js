@@ -80,8 +80,6 @@ function setupEvents(board) {
   const highScoresElement = document.getElementById("high-scores-container");
   const highScores = document.getElementById("high-scores");
   const highScoreName = document.getElementById("high-score-name");
-  const scoreSpan = document.getElementById("score-span");
-  const submitHighScoreBtn = document.getElementById("submit-high-score");
   const playerNameEl = document.getElementById("player-name");
   window.loadHighScores = () => {
     highScoresElement.style.removeProperty("max-width");
@@ -96,7 +94,12 @@ function setupEvents(board) {
         scoreElement.innerHTML = "";
         scores[difficulty].forEach((s) => {
           const li = document.createElement("li");
-          li.textContent = `${s.score} ${s.name} `;
+          const score = document.createElement("div");
+          const name = document.createElement("div");
+          score.textContent = s.score.toFixed(3);
+          name.textContent = s.name;
+          li.appendChild(score);
+          li.appendChild(name);
           scoreElement.appendChild(li);
         });
       }
@@ -107,12 +110,20 @@ function setupEvents(board) {
     highScores.style.setProperty("display", "none");
     highScoreName.style.setProperty("display", "block");
   };
+  const scoreSpan = document.getElementById("score-span");
+  const rankSpan = document.getElementById("score-rank");
+  const difficultySpan = document.getElementById("score-difficulty");
+  const submitHighScoreBtn = document.getElementById("submit-high-score");
   window.setHighScore = (score, difficulty, timestamp) => {
     highScoresElement.style.setProperty("display", "block");
-    highScoresElement.style.setProperty("max-width", "20em");
+    highScoresElement.style.setProperty("max-width", "25em");
     highScores.style.setProperty("display", "none");
     highScoreName.style.setProperty("display", "block");
     scoreSpan.textContent = score;
+    difficultySpan.textContent = difficulty;
+    fb.getRank(score, "beginner").then((rank) => {
+      rankSpan.textContent = rank;
+    });
     submitHighScoreBtn.onclick = () => {
       const playerName = playerNameEl.value;
       if (playerName.length >= 3) {
@@ -223,16 +234,4 @@ function setupMenu() {
       leftBox = false;
     };
   });
-}
-
-function fillHighScores(scores) {
-  for (const difficulty of scores) {
-    const scoreElement = document.getElementById(`high-scores-${difficulty}`);
-    scoreElement.innerHTML = "";
-    scores.forEach((s) => {
-      const li = document.createElement("li");
-      li.textContent = `${s.score} ${truncateString(s.name, 12)} `;
-      scoreElement.appendChild(li);
-    });
-  }
 }
