@@ -54,6 +54,7 @@ And the background should look like the old times Windows
   - ~~F2 -> new game~~
   - Question mark cell
   - ~~Left + Right click flood fill~~
+  - Player name feedback
 - Finished!
 
 ## Progress reports

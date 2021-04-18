@@ -255,6 +255,12 @@ nav ul li:active {
   margin-bottom: 2em;
 }
 
+#cheat-div {
+  display: block;
+  width: 0.5em;
+  height: 0.5em;
+}
+
 /* SPRITES */
 .title-dash {
   float: left;

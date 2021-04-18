@@ -84,6 +84,7 @@ function setupEvents(board) {
   const submitHighScoreBtn = document.getElementById("submit-high-score");
   const playerNameEl = document.getElementById("player-name");
   window.loadHighScores = () => {
+    highScoresElement.style.removeProperty("max-width");
     highScoresElement.style.setProperty("display", "block");
     highScores.style.setProperty("display", "flex");
     highScoreName.style.setProperty("display", "none");
@@ -105,7 +106,6 @@ function setupEvents(board) {
     highScoresElement.style.setProperty("display", "none");
     highScores.style.setProperty("display", "none");
     highScoreName.style.setProperty("display", "block");
-    highScoresElement.style.removeProperty("max-width");
   };
   window.setHighScore = (score, difficulty, timestamp) => {
     highScoresElement.style.setProperty("display", "block");
@@ -128,17 +128,33 @@ function setupEvents(board) {
   window.closeAbout = () => {
     aboutElement.style.setProperty("display", "none");
   };
+
+  // Keyboard events
   playerNameEl.addEventListener("keyup", (event) => {
-    if (event.keyCode === 13) {
+    if (event.key === "Enter") {
       event.preventDefault();
       submitHighScoreBtn.click();
     }
   });
-
-  // Keyboard events
+  let cheatInput = "";
+  const cheatCode = "xyzzy";
+  const cheatDiv = document.getElementById("cheat-div");
   document.addEventListener("keyup", (event) => {
     if (event.key == "F2") {
       window.newGame();
+    } else if (event.key === cheatCode.charAt(cheatInput.length)) {
+      cheatInput += event.key;
+    } else {
+      if (cheatInput == cheatCode && event.key == "Enter" && event.shiftKey) {
+        board.cellMouseEnter = (cellEl, idx) => {
+          const cellData = board.data[idx];
+          if (cellData.value == board.MINE)
+            cheatDiv.style.setProperty("background-color", "#000");
+          else cheatDiv.style.removeProperty("background-color");
+        };
+      } else if (event.key === cheatCode.charAt(0))
+        cheatInput = cheatCode.charAt(0);
+      else cheatInput = "";
     }
   });
 }

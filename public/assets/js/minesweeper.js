@@ -165,6 +165,7 @@ class Board {
         cellRow.appendChild(cell);
         cell.onmousedown = (event) => this.cellMouseDown(event, idx);
         cell.onmouseup = (event) => this.cellMouseUp(event, idx);
+        cell.onmouseenter = (event) => this.cellMouseEnter(event, idx);
         this.view.push(cell);
 
         // Cell value
@@ -266,6 +267,8 @@ class Board {
       this.checkVictory();
     }
     this.showBoard();
+  }
+  cellMouseEnter(event, idx) {
   }
   showAllMines() {
     this.data
